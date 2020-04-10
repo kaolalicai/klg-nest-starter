@@ -1,8 +1,8 @@
 /**
  * mock js 的语法 见 https://github.com/nuysoft/Mock/wiki/Syntax-Specification
  */
-import {ObjectId} from './ObjectId'
 import * as Mock from 'mockjs'
+import {ObjectId} from '../src/common/utils/ObjectId'
 
 export const UserTemplate = {
   _id: () => ObjectId(),

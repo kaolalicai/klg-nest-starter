@@ -1,4 +1,4 @@
-import {request} from './test-helper'
+import {request} from '../test-helper'
 
 describe('AppController (e2e) error handle ', () => {
 

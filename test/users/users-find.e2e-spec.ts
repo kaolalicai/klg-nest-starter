@@ -1,8 +1,9 @@
-import {request, genUsers} from './test-helper'
+import {request, genFixtures} from '../test-helper'
+import {UserTemplate} from '../model-mock-template'
 
 describe('AppController (e2e) find with fixtures ', () => {
   beforeAll(async function () {
-    await genUsers(10)
+    await genFixtures(UserTemplate, 1, 'User')
   })
 
   it('find all', () => {

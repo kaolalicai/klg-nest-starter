@@ -1,5 +1,5 @@
-import {request, genFixtures} from './test-helper'
-import {UserTemplate, AccountTemplate} from './model-mock-template'
+import {request, genFixtures} from '../test-helper'
+import {UserTemplate, AccountTemplate} from '../model-mock-template'
 
 describe('AppController (e2e) multi db  ', () => {
   let user = null
