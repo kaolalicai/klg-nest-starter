@@ -6,11 +6,19 @@ module.exports = {
     connections: [
       {
         name: 'core',
-        url: 'mongodb://localhost:57017/core'
+        url: 'mongodb://localhost:57017/core',
+        options: {
+          useNewUrlParser: true,
+          useUnifiedTopology: true
+        }
       },
       {
         name: 'app',
-        url: 'mongodb://localhost:57017/app'
+        url: 'mongodb://localhost:57017/app',
+        options: {
+          useNewUrlParser: true,
+          useUnifiedTopology: true
+        }
       }
     ]
   }
