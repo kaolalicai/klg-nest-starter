@@ -1,8 +1,8 @@
 import * as supertest from 'supertest'
 import {ApplicationModule} from '../src/app.module'
+import {Test} from '@nestjs/testing'
 import {HttpExceptionFilter} from '../src/common/filters/http-exception.filter'
 import {TransformInterceptor} from '../src/common/interceptors/transform.interceptor'
-import {Test} from '@nestjs/testing'
 
 export async function bootstrap () {
   // init nestjs

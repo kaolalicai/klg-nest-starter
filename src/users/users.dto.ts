@@ -1,6 +1,6 @@
 import {IsNotEmpty} from 'class-validator'
 import {ApiProperty} from '@nestjs/swagger'
-import {BaseResponse} from '../common/dto/base-response.dto'
+import {BaseResponse} from '@akajs/web'
 
 export class UserDto {
   @IsNotEmpty()
