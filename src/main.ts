@@ -24,7 +24,7 @@ async function bootstrap () {
   app.useGlobalInterceptors(new TransformInterceptor())
 
   await app.listen(process.env.PORT || 3000)
-  console.log(`Application is running on: ${ await app.getUrl() }`)
+  console.log(`Application(${ process.env.NODE_ENV }) is running on: ${ await app.getUrl() }`)
 }
 
 bootstrap()
