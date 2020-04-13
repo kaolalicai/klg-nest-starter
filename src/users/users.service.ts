@@ -1,8 +1,8 @@
 import {Injectable} from '@nestjs/common'
-import {CreateUsersDto} from './dto/create-users.dto'
 import {User, UserModel, IUserModel} from './model/user.model'
 import {InjectModel} from 'nestjs-typegoose'
 import {AccountModel, Account, IAccountModel} from './model/account.model'
+import {UserDto} from './users.dto'
 
 @Injectable()
 export class UsersService {
@@ -12,7 +12,7 @@ export class UsersService {
   ) {
   }
 
-  async register (createUsersDto: CreateUsersDto): Promise<User> {
+  async register (createUsersDto: UserDto): Promise<User> {
     const createdUser = new this.userModel(createUsersDto)
     const user = await createdUser.save()
     await user.registerSuccess()
