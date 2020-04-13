@@ -9,7 +9,7 @@
     "build": "nest build",
     "start:dev": "NODE_ENV=dev nest start --watch",
     "start": "node dist/main",
-    "lint": "tslint  -c tslint.json 'src/**/*.ts' --fix",
+    "lint": "tslint  -c tslint.json '{src,test}/**/*.ts' --fix",
     "pretest:e2e": "npm run lint",
     "test": "jest",
     "test:cov": "jest --coverage",

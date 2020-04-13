@@ -7,8 +7,8 @@ describe('AppController (e2e) with db ', () => {
       .send({name: 'nick', phone: '12345'})
       .expect(201)
       .expect({
-        "code": 0,
-        "message": "success"
+        'code': 0,
+        'message': 'success'
       })
   })
 })
