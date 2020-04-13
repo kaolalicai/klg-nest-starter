@@ -25,6 +25,9 @@ export class UsersService {
 
   async getAccountAndUser (userId: string): Promise<IAccountModel> {
     let user = await this.userModel.findById(userId)
-    return this.accountModel.findOne({userId: user.id})
+    if (!user) throw new Error('User not found ' + userId)
+    let account = await this.accountModel.findOne({userId: user.id})
+    if (!account) throw new Error('Account not found ' + user.id)
+    return account
   }
 }

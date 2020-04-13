@@ -3,7 +3,7 @@ import {UserTemplate, AccountTemplate} from '../model-mock-template'
 
 describe('AppController (e2e) multi db  ', () => {
   let user = null
-  let userId: string = null
+  let userId: string
   beforeAll(async function () {
     // 自动生成 User fixture
     let userData = await genFixtures(UserTemplate, 1, 'User')
@@ -11,7 +11,7 @@ describe('AppController (e2e) multi db  ', () => {
     userId = user._id.toString()
 
     // 自动生成 Account fixture，并且通过 fixData 函数来修改值
-    await genFixtures(AccountTemplate, 1, 'Account', (i, it) => {
+    await genFixtures(AccountTemplate, 1, 'Account', (it: any) => {
       it.userId = userId
       return it
     })

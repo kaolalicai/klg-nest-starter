@@ -1,8 +1,17 @@
 import * as _ from 'lodash'
 import * as config from 'config'
 
-export function parseConfig () {
-  let mongoConfigs = null
+export type MongoConfigs = {
+  url: string,
+  name: string,
+  options?: {
+    useNewUrlParser: boolean,
+    useUnifiedTopology: boolean
+  }
+}
+
+export function parseConfig (): { mongoConfigs: MongoConfigs[], debugMongoose: boolean } {
+  let mongoConfigs: MongoConfigs[]
   try {
     // 兼容旧结构
     if (config.has('database.mongodb')) {

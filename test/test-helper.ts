@@ -8,15 +8,16 @@ import {bootstrap} from './main'
 process.env.NODE_ENV = 'test'
 console.log('current env', process.env.NODE_ENV)
 
-
-export async function genFixtures (template: object, nums: number, modelName: string, fixData?: Function) {
-  if (!fixData) fixData = (i, it) => it
-  let items = Array(10).fill(0).map((index, value) => fixData(index, template))
+export async function genFixtures (template: object, nums: number, modelName: string, fixData?: (it: object, i: number) => any) {
+  if (!fixData) fixData = (it: object, index: number) => it
   let model = app.get(getModelToken(modelName))
+  let items = Array(10)
+    .fill(0)
+    .map((it: object) => Mock.mock(template))
+    .map(fixData)
   console.log('initFixtures ', items.length)
-  let data = items.map(it => Mock.mock(it))
-  await model.create(data)
-  return data
+  await model.create(items)
+  return items
 }
 
 export async function clearDatabase () {

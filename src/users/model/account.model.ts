@@ -2,10 +2,10 @@ import {prop, DocumentType, ReturnModelType} from '@typegoose/typegoose'
 
 export class Account {
   @prop({required: true, index: true})
-  userId: string
+  userId!: string
 
   @prop({default: 0})
-  balance: number
+  balance!: number
 }
 
 export type IAccountModel = DocumentType<Account>

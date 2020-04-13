@@ -2,13 +2,13 @@ import {prop, DocumentType, ReturnModelType} from '@typegoose/typegoose'
 
 export class User {
   @prop()
-  name: string
+  name!: string
 
   @prop({required: true, index: true, unique: true})
-  phone: string
+  phone!: string
 
   @prop({default: false})
-  isRegister: boolean
+  isRegister!: boolean
 
   async registerSuccess () {
     this.isRegister = true
