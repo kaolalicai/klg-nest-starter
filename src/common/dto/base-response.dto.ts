@@ -6,4 +6,3 @@ export class BaseResponse {
   @ApiProperty()
   readonly message!: string
 }
-
