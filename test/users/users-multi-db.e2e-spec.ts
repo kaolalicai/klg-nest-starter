@@ -1,5 +1,6 @@
 import {request, genFixtures} from '../test-helper'
 import {UserTemplate, AccountTemplate} from '../model-mock-template'
+const prefix = '/api/v1'
 
 describe('AppController (e2e) multi db  ', () => {
   let user = null
@@ -20,7 +21,7 @@ describe('AppController (e2e) multi db  ', () => {
   it('find account', async () => {
     console.log('userId', userId)
     const {body} = await request
-      .get('/users/account')
+      .get(prefix + '/users/account')
       .query({userId: userId})
       .expect(200)
 

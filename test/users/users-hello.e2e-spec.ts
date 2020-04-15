@@ -1,10 +1,11 @@
 import {request} from '../test-helper'
+const prefix = '/api/v1'
 
 describe('AppController (e2e)', () => {
 
   it('hello', () => {
     return request
-      .get('/users/hello')
+      .get(prefix + '/users/hello')
       .expect(200)
       .expect({
         'code': 0,

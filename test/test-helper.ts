@@ -1,7 +1,7 @@
 import {TestDateBaseHelper} from '@akajs/mongoose'
 import {INestApplication} from '@nestjs/common'
 import * as supertest from 'supertest'
-import {bootstrap} from './main'
+import * as server from '../src/server'
 
 process.env.NODE_ENV = 'test'
 console.log('current env', process.env.NODE_ENV)
@@ -14,9 +14,8 @@ export async function genFixtures (template: object, nums: number, modelName: st
 }
 
 beforeAll(async function () {
-  const res = await bootstrap()
-  app = res.app
-  request = res.request
+  app = await server.bootstrap()
+  request = supertest(app.getHttpServer())
   await TestDateBaseHelper.clearDatabase(app as any)
 })
 
