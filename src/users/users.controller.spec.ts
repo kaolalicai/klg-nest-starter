@@ -14,6 +14,10 @@ describe('UsersController', () => {
         {
           provide: getModelToken('User'),
           useValue: {}
+        },
+        {
+          provide: getModelToken('Account'),
+          useValue: {}
         }]
     }).compile()
 
