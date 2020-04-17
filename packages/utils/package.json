@@ -1,5 +1,5 @@
 {
-  "name": "@klg/utils",
+  "name": "@kalengo/utils",
   "version": "0.1.0",
   "description": "aka utils",
   "main": "index.js",
@@ -17,5 +17,5 @@
     "klg-logger": "^3.0.1",
     "lodash": "^4.17.15"
   },
-  "gitHead": "f5ea113001ae30b9ff1fbbdc39c44e66a3cd8682"
+  "gitHead": "4b2499c98f7b2334e390a18ab220547f7e00ee29"
 }

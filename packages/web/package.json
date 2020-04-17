@@ -1,5 +1,5 @@
 {
-  "name": "@klg/web",
+  "name": "@kalengo/web",
   "version": "0.1.0",
   "description": "aka web with koa",
   "scripts": {
@@ -18,5 +18,6 @@
   },
   "devDependencies": {
     "@types/glob": "^7.1.1"
-  }
+  },
+  "gitHead": "4b2499c98f7b2334e390a18ab220547f7e00ee29"
 }

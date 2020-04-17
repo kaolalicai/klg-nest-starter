@@ -1,5 +1,5 @@
 {
-  "name": "@klg/mongoose",
+  "name": "@kalengo/mongoose",
   "version": "0.1.0",
   "description": "aka mongoose",
   "scripts": {
@@ -20,7 +20,7 @@
     "mongoose": "^5.9.7",
     "nestjs-typegoose": "^7.1.14"
   },
-  "gitHead": "f5ea113001ae30b9ff1fbbdc39c44e66a3cd8682",
+  "gitHead": "4b2499c98f7b2334e390a18ab220547f7e00ee29",
   "devDependencies": {
     "@types/mockjs": "^1.0.2"
   }
