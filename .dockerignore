@@ -1,0 +1,17 @@
+# dependencies
+node_modules/
+
+# build
+dist/
+
+logs/
+# tests
+coverage/
+.nyc_output/
+
+# IDE
+/.idea
+/.awcache
+/.vscode
+*.code-workspace
+
