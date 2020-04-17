@@ -3,7 +3,7 @@ import {SwaggerModule, DocumentBuilder} from '@nestjs/swagger'
 import * as morgan from 'morgan'
 import {ApplicationModule} from './app.module'
 import {HttpExceptionFilter} from './common/filters/http-exception.filter'
-import {TransformInterceptor} from './common/interceptors/transform.interceptor'
+import {TransformInterceptor} from '@kalengo/web'
 
 async function bootstrap () {
   const app = await NestFactory.create(ApplicationModule)

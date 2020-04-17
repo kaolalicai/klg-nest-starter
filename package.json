@@ -1,5 +1,5 @@
 {
-  "name": "@klg/web",
+  "name": "@kalengo/web",
   "version": "0.1.2",
   "description": "Kalengo web framework helper",
   "main": "dist/src/index.js",
@@ -7,13 +7,13 @@
   "scripts": {
     "lint": "tslint -p tsconfig.json -c tslint.json \"packages/**/*.ts\" -e \"*.spec.ts\" --fix",
     "clean": "gulp clean:bundle",
-    "prebuild": "rm -rf node_modules/@klg",
-    "build": "gulp build --dist ./node_modules/@klg",
+    "prebuild": "rm -rf node_modules/@kalengo",
+    "build": "gulp build --dist ./node_modules/@kalengo",
     "postbuild": "gulp move",
     "prebuild:prod": "npm run clean",
     "build:prod": "gulp build",
     "integration-test": "mocha \"integration/*/{,!(node_modules)/**/}/*.spec.ts\" --reporter spec --require ts-node/register",
-    "prerelease": "gulp copy-misc && gulp build --dist node_modules/@klg",
+    "prerelease": "gulp copy-misc && gulp build --dist node_modules/@kalengo",
     "publish": "npm run prerelease && npm run build:prod && ./node_modules/.bin/lerna publish --registry https://registry.npmjs.org",
     "publish:rc": "npm run prerelease && npm run build:prod && ./node_modules/.bin/lerna publish --registry https://registry.npmjs.org --npm-tag=rc",
     "publish:next": "npm run prerelease && npm run build:prod && ./node_modules/.bin/lerna publish --registry https://registry.npmjs.org --npm-tag=next --skip-git",
@@ -24,10 +24,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kaolalicai/klg-nest-starter"
+    "url": "https://github.com/kaolalicai/kalengo-nest-starter"
   },
   "keywords": [
-    "klg"
+    "kalengo"
   ],
   "author": "nick",
   "license": "MIT",
@@ -51,7 +51,7 @@
     "@nestjs/swagger": "^4.5.1",
     "@typegoose/typegoose": "^6.4.0",
     "config": "^3.3.1",
-    "klg-date": "^1.1.7",
+    "kalengo-date": "^1.1.7",
     "mockjs": "^1.1.0",
     "mongoose": "^5.9.9",
     "nestjs-typegoose": "^7.1.14",

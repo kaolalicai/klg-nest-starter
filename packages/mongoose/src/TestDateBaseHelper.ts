@@ -1,5 +1,5 @@
 import {Module} from '@nestjs/common'
-import {logger} from '@klg/utils'
+import {logger} from '@kalengo/utils'
 import {getModelToken, getConnectionToken} from 'nestjs-typegoose'
 import * as Mock from 'mockjs'
 import {parseConfig} from './ConfigParse'
