@@ -1,13 +1,12 @@
-import {task, src, dest} from 'gulp'
-import * as rename from 'gulp-rename'
+import {task, src, dest, series} from 'gulp'
 import {getDirs} from '../util/task-helpers'
-import {samplePath} from '../config'
+import {samplePath, packagesPath} from '../config'
 
 /**
  * Moves the base config filesfiles into the
  * `samples/*` dirs.
  */
-function copyMisc () {
+function copyMiscToSample () {
   const directories = getDirs(samplePath)
   const distFiles = src(['./','./common/**/*', './common/**/.*'])
   return directories.reduce(
@@ -18,4 +17,15 @@ function copyMisc () {
   )
 }
 
-task('copy-misc', copyMisc)
+function copyMiscToPackages () {
+  const directories = getDirs(packagesPath)
+  const distFiles = src(['./packages/Readme.md', './packages/.npmignore'])
+  return directories.reduce(
+    (distFile, dir) => {
+      return distFile.pipe(dest(dir))
+    },
+    distFiles
+  )
+}
+
+task('copy-misc', series(copyMiscToSample, copyMiscToPackages))

@@ -24,4 +24,4 @@ function move () {
 }
 
 task('move:boilerplate', move)
-task('move:template', series('clean', 'move:boilerplate'))
+task('move:template', series('clean:template', 'move:boilerplate'))
