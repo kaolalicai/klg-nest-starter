@@ -1,6 +1,6 @@
 import {IsNotEmpty} from 'class-validator'
 import {ApiProperty} from '@nestjs/swagger'
-import {BaseResponse} from '@akajs/web'
+import {BaseResponse} from '@kalengo/web'
 
 export class UserDto {
   @IsNotEmpty()

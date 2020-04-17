@@ -6,19 +6,6 @@ import {getDirs} from '../util/task-helpers'
  * `boilerplate/*` dirs.
  */
 function move () {
-  // const boilerplateDirs = getDirs('./boilerplate');
-  // // const distFiles = src(['sample/hello-world/**/*', '!sample/hello-world/node_modules/**/*'])
-  // const distFiles = src(['./config/**/*'])
-  // console.log('boilerplateDirs', boilerplateDirs.length)
-  // console.log('distFile', distFiles.length)
-  // return boilerplateDirs
-  //   .reduce(
-  //     (distFile, dir) => {
-  //       return distFile.pipe(dest(dir))
-  //     },
-  //     distFiles
-  //   )
-
   return src(['sample/hello-world/**/*', '!sample/hello-world/node_modules/**/*', '!sample/hello-world/dist/**/*'])
     .pipe(dest('template/boilerplate/'))
 }

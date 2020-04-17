@@ -2,7 +2,7 @@
  * mock js 的语法 见 https://github.com/nuysoft/Mock/wiki/Syntax-Specification
  */
 import * as Mock from 'mockjs'
-import {ObjectId} from '@akajs/mongoose'
+import {ObjectId} from '@kalengo/mongoose'
 
 export const UserTemplate = {
   _id: () => ObjectId(),

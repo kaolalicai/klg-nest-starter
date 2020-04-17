@@ -1,4 +1,4 @@
-import {TestDateBaseHelper} from '@akajs/mongoose'
+import {TestDateBaseHelper} from '@kalengo/mongoose'
 import {INestApplication} from '@nestjs/common'
 import * as supertest from 'supertest'
 import {bootstrap} from './main'

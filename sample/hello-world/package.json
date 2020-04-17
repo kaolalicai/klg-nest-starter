@@ -1,8 +1,8 @@
 {
-  "name": "{{name}}",
+  "name": "hello-world",
   "private": true,
   "version": "1.0.0",
-  "description": "{{description}}",
+  "description": "",
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
