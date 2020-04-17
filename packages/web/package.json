@@ -1,0 +1,23 @@
+{
+  "name": "@akajs/web",
+  "version": "1.0.0-alpha.0",
+  "description": "aka web with koa",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "nick",
+  "license": "MIT",
+  "dependencies": {
+    "@akajs/utils": "^1.0.0-alpha.0",
+    "@nestjs/common": "^7.0.7",
+    "@nestjs/swagger": "^4.5.1",
+    "rxjs": "^6.5.5"
+  },
+  "gitHead": "f5ea113001ae30b9ff1fbbdc39c44e66a3cd8682",
+  "devDependencies": {
+    "@types/glob": "^7.1.1"
+  }
+}
