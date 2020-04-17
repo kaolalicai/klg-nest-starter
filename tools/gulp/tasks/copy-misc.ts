@@ -1,17 +1,22 @@
 import {task, src, dest} from 'gulp'
-import {packagePaths} from '../config'
+import * as rename from 'gulp-rename'
+import {getDirs} from '../util/task-helpers'
+import {samplePath} from '../config'
 
 /**
- * Copies assets like Readme.md or LICENSE from the project base path
- * to all the packages.
+ * Moves the base config filesfiles into the
+ * `samples/*` dirs.
  */
-function copyMisc (): NodeJS.ReadWriteStream {
-  const miscFiles = src(['Readme.md', '.npmignore'])
-  // Since `dest()` does not take a string-array, we have to append it
-  // ourselves
-  return packagePaths.reduce(
-    (stream, packagePath) => stream.pipe(dest(packagePath)),
-    miscFiles
+function copyMisc () {
+  const directories = getDirs(samplePath)
+  const distFiles = src(['./common/**/*'])
+  return directories.reduce(
+    (distFile, dir) => {
+      return distFile.pipe(rename(function (path) {
+        path.basename = path.basename.replace('_BASE', '')
+      })).pipe(dest(dir))
+    },
+    distFiles
   )
 }
 

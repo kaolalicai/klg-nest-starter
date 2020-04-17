@@ -1,33 +1,27 @@
-import {task, src, dest} from 'gulp'
-import * as rename from 'gulp-rename'
+import {task, src, dest, series} from 'gulp'
 import {getDirs} from '../util/task-helpers'
-import {samplePath} from '../config'
 
 /**
- * Moves the base config filesfiles into the
- * `samples/*` dirs.
+ * Moves the hello-world project into the
+ * `boilerplate/*` dirs.
  */
-function moveCommonFile () {
-  const directories = getDirs(samplePath)
-  const distFiles = src([
-    './.gitignore',
-    './.dockerignore',
-    './nest-cli.json',
-    './README_BASE.md',
-    './tslint.json',
-    './tsconfig.json',
-    './tsconfig.build.json'
-  ])
-  return directories.reduce(
-    (distFile, dir) => {
-      console.log('distFile', distFile)
-      return distFile.pipe(rename(function (path) {
-        console.log('path', path)
-        path.basename = path.basename.replace('_BASE', '')
-      })).pipe(dest(dir))
-    },
-    distFiles
-  )
+function move () {
+  // const boilerplateDirs = getDirs('./boilerplate');
+  // // const distFiles = src(['sample/hello-world/**/*', '!sample/hello-world/node_modules/**/*'])
+  // const distFiles = src(['./config/**/*'])
+  // console.log('boilerplateDirs', boilerplateDirs.length)
+  // console.log('distFile', distFiles.length)
+  // return boilerplateDirs
+  //   .reduce(
+  //     (distFile, dir) => {
+  //       return distFile.pipe(dest(dir))
+  //     },
+  //     distFiles
+  //   )
+
+  return src(['sample/hello-world/**/*', '!sample/hello-world/node_modules/**/*'])
+    .pipe(dest('boilerplate/'))
 }
 
-task('move', moveCommonFile)
+task('move:boilerplate', move)
+task('move', series('clean', 'move:boilerplate'))
