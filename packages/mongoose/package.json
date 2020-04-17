@@ -1,6 +1,6 @@
 {
-  "name": "@akajs/mongoose",
-  "version": "1.0.0-alpha.0",
+  "name": "@klg/mongoose",
+  "version": "0.0.1",
   "description": "aka mongoose",
   "scripts": {
     "test": "npm run test"
@@ -11,7 +11,7 @@
   "author": "nick",
   "license": "MIT",
   "dependencies": {
-    "@akajs/utils": "^1.0.0-alpha.0",
+    "@klg/utils": "^0.0.1",
     "@nestjs/common": "^7.0.7",
     "@typegoose/typegoose": "^6.4.0",
     "config": "^3.3.1",

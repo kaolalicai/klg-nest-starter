@@ -1,5 +1,5 @@
 {
-  "name": "@akajs/utils",
+  "name": "@klg/utils",
   "version": "1.0.0-alpha.0",
   "description": "aka utils",
   "main": "index.js",
@@ -12,6 +12,7 @@
   "author": "nick",
   "license": "MIT",
   "dependencies": {
+    "config": "^3.3.1",
     "klg-date": "^1.1.5",
     "klg-logger": "^3.0.1",
     "lodash": "^4.17.15"
