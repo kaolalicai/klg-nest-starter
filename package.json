@@ -17,6 +17,14 @@
   "author": "Nick",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^13.11.1",
+    "delete-empty": "^3.0.0",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "ts-node": "^8.8.2",
+    "typescript": "^3.8.3",
     "vuepress": "^1.4.1"
   }
 }
