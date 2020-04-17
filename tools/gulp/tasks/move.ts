@@ -20,8 +20,8 @@ function move () {
   //   )
 
   return src(['sample/hello-world/**/*', '!sample/hello-world/node_modules/**/*'])
-    .pipe(dest('boilerplate/'))
+    .pipe(dest('template/boilerplate/'))
 }
 
 task('move:boilerplate', move)
-task('move', series('clean', 'move:boilerplate'))
+task('move:template', series('clean', 'move:boilerplate'))

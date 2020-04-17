@@ -8,7 +8,7 @@ import {source} from '../config'
 function cleanDirs () {
   // return del(`${ source }/**/*`, {force: true})
   return src(`${ source }/`, {read: false})
-    .pipe(clean({force: true}))
+    .pipe(clean({force: true, allowEmpty : true}))
 }
 
 
