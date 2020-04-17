@@ -19,7 +19,7 @@ function move () {
   //     distFiles
   //   )
 
-  return src(['sample/hello-world/**/*', '!sample/hello-world/node_modules/**/*'])
+  return src(['sample/hello-world/**/*', '!sample/hello-world/node_modules/**/*', '!sample/hello-world/dist/**/*'])
     .pipe(dest('template/boilerplate/'))
 }
 
