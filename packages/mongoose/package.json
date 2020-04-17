@@ -1,6 +1,6 @@
 {
   "name": "@klg/mongoose",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "aka mongoose",
   "scripts": {
     "test": "npm run test"

@@ -1,6 +1,6 @@
 {
   "name": "@klg/web",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "aka web with koa",
   "scripts": {
     "test": "npm run test"
