@@ -8,6 +8,8 @@
     "example": "examples"
   },
   "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
     "clean": "rimraf temp boilerplate/.idea boilerplate/node_modules",
     "build": "npm run clean && npx klg-init temp --force --silent --template=./",
     "pretest": "npm run build && npm run install-deps",
