@@ -9,12 +9,10 @@ import {samplePath} from '../config'
  */
 function copyMisc () {
   const directories = getDirs(samplePath)
-  const distFiles = src(['./common/**/*'])
+  const distFiles = src(['./common/**/*', './common/**/.*'])
   return directories.reduce(
     (distFile, dir) => {
-      return distFile.pipe(rename(function (path) {
-        path.basename = path.basename.replace('_BASE', '')
-      })).pipe(dest(dir))
+      return distFile.pipe(dest(dir))
     },
     distFiles
   )

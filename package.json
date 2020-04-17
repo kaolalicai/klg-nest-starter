@@ -8,7 +8,11 @@
     "example": "examples"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rimraf temp boilerplate/.idea boilerplate/node_modules",
+    "build": "npm run clean && npx klg-init temp --force --silent --template=./",
+    "pretest": "npm run build && npm run install-deps",
+    "test": "cd temp && npm test",
+    "install-deps": "cd temp && npm i --registry=https://registry.npm.taobao.org"
   },
   "repository": {
     "type": "git",
@@ -27,5 +31,8 @@
     "ts-node": "^8.8.2",
     "typescript": "^3.8.3",
     "vuepress": "^1.4.1"
+  },
+  "dependencies": {
+    "klg-init": "^1.1.1"
   }
 }

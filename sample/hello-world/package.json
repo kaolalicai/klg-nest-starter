@@ -1,8 +1,8 @@
 {
-  "name": "klg-nest-starter-hello-world",
+  "name": "{{name}}",
   "private": true,
   "version": "1.0.0",
-  "description": "Nest TypeScript starter repository",
+  "description": "{{description}}",
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",

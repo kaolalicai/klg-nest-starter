@@ -390,5 +390,3 @@ Temporary Items
 docker-compose.yml
 .env
 dist
-temp
-boilerplate
