@@ -1,0 +1,17 @@
+{
+  "name": "@kalengo/redis",
+  "version": "0.0.1",
+  "description": "nest redis for kalengo",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "nick",
+  "license": "MIT",
+  "dependencies": {
+    "@nestjs/common": "^7.0.8",
+    "nestjs-redis": "^1.2.7"
+  }
+}

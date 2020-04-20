@@ -1,11 +1,12 @@
 module.exports = {
   port: process.env.PORT || 3000,
+  schedule: true,
   mongodb: {
-    debug: false,
+    debug: true,
     connections: [
       {
         name: 'core',
-        url: process.env.CORE_MONGODB,
+        url: 'mongodb://localhost:57017/core',
         options: {
           useNewUrlParser: true,
           useUnifiedTopology: true
@@ -13,16 +14,12 @@ module.exports = {
       },
       {
         name: 'app',
-        url: process.env.APP_MONGODB,
+        url: 'mongodb://localhost:57017/app',
         options: {
           useNewUrlParser: true,
           useUnifiedTopology: true
         }
       }
     ]
-  },
-  redis: {
-    uri: process.env.REDIS_URI || 'redis://localhost:6379',
-    prefix: process.env.REDIS_PREFIX || 'redis_'
-  },
+  }
 }
