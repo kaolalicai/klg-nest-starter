@@ -7,7 +7,12 @@ Nest 的官方 demo 中提供了两套测试：
 - Unit Test
 - E2E Test
 
-两套测试有这各自的应用场景，这里和大家详细解释一下
+一个业务要写 E2E Test 还是 Unit Test 要根据实际情况来分析。
+建议：
+- 主流程（成功/失败）：E2E Test
+- 异常 case : Unit Test
+
+接下来和大家详细解释一下两套测试
 
 ## Unit Test
 即是单元测试，测试粒度非常小，一般是测试一个 function，可以测很多种 case，
