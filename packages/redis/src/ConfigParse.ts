@@ -9,7 +9,7 @@ export type RedisConfig = {
 export function parseConfig (): { redisConfig: RedisConfig } {
   let redisConfig: RedisConfig
   try {
-    redisConfig = config.get('database.redis')
+    redisConfig = config.get('redis')
   } catch (e) {
     throw new Error('redis config 不能为空')
   }

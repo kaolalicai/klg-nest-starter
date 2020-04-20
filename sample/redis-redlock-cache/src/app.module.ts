@@ -1,10 +1,10 @@
 import {Module} from '@nestjs/common'
 import {UsersModule} from './users/users.module'
-import {TypegooseModuleBuilder} from '@kalengo/redis'
+import {RedisModuleBuilder} from '@kalengo/redis'
 
 @Module({
   imports: [
-    TypegooseModuleBuilder.forRoot(),
+    RedisModuleBuilder.forRoot(),
     UsersModule
   ]
 })

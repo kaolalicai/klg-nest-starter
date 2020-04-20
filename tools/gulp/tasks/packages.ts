@@ -8,6 +8,7 @@ import * as log from 'fancy-log'
 const packages = {
   utils: createProject('packages/utils/tsconfig.json'),
   web: createProject('packages/web/tsconfig.json'),
+  redis: createProject('packages/redis/tsconfig.json'),
   mongoose: createProject('packages/mongoose/tsconfig.json')
 }
 
