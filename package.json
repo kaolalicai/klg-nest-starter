@@ -51,7 +51,7 @@
     "@nestjs/swagger": "^4.5.1",
     "@typegoose/typegoose": "^6.4.0",
     "config": "^3.3.1",
-    "kalengo-date": "^1.1.7",
+    "klg-date": "^1.1.7",
     "mockjs": "^1.1.0",
     "mongoose": "^5.9.9",
     "nestjs-typegoose": "^7.1.14",
