@@ -29,13 +29,23 @@ open http://localhost:3000
 
 ## 测试Test
 
+
+### 单元测试
+
 ```bash
-# unit tests
 $ npm run test
+```
 
-# e2e tests
-$ npm run test:e2e
+### e2e 测试
+e2e 测试依赖 mongodb，开始之前请修改 config/test.js 里的 mongodb uri
 
+```bash
+$ npm run test
+```
+
+### 测试覆盖率(TODO)
+
+```bash
 # test coverage
 $ npm run test:cov
 ```

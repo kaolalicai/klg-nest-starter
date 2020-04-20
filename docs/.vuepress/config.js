@@ -15,6 +15,7 @@ module.exports = {
       ['/web', 'Web生命周期'],
       ['/config', '应用配置'],
       ['/mongoose', 'Mongodb'],
+      ['/e2etest', '端到端测试'],
       ['/klg', '工具集'],
       ['/extend', '其他技术'],
       ['/contribut', '如何贡献'],
