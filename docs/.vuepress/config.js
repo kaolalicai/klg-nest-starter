@@ -13,7 +13,7 @@ module.exports = {
       '/',
       ['/quickstart', '快速开始'],
       ['/web', 'Web生命周期'],
-      ['/e2etest', '端到端测试'],
+      ['/test', '测试'],
       ['/config', '应用配置'],
       ['/mongoose', 'Mongodb'],
       ['/klg', '工具集'],

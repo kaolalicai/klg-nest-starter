@@ -2,15 +2,47 @@
 sidebarDepth: 2
 ---
 
-## 启动 e2e 测试
-e2e 测试依赖 mongodb，开始之前请修改 config/test.js 里的 mongodb uri
+Nest 的官方 demo 中提供了两套测试：
 
+- Unit Test
+- E2E Test
+
+两套测试有这各自的应用场景，这里和大家详细解释一下
+
+## Unit Test
+即是单元测试，测试粒度非常小，一般是测试一个 function，可以测很多种 case，
+代价 function 的外部依赖都需要 mock 掉，如其他 function 调用数据查询等。
+
+这里我们将会参考 Nest 的风格:
+- Unit Test 文件位置和代码同个位置，以后缀区分
+- 测试粒度是 function
+- 测试不会连接 mongodb
+
+如果你发现测试一个 service function 的时候，不连着  mongodb 就不好写测试的时候，就要考虑修改一下代码结构了，把数据查询的逻辑独立到另一个方法去。
+毕竟业界是有 “编写可测试的代码” 这个说法的。
+
+执行测试
 ```bash
 $ npm run test
 ```
 
+## E2E Test
+端到端测试，测试粒度比较大，模拟请求接口，然后检查返回值，好处是测试覆盖的流程多，
+用比较低的成本就可以获得 80% 以上的覆盖率，坏处是不够灵活。
+
+而且为了能覆盖到数据查询的流程，我们的习惯是连着 mongodb 跑的，
+这里我们就不参考  Nest 的风格了。
+
+E2E Test 依赖 mongodb，所以开始之前请修改 config/test.js 里的 mongodb uri
+
+执行测试
+
+```bash
+$ npm run test:e2e
+```
+
 ## 准备测试数据
-在我们之前的经验，我们发现 mock mongodb db 的成本比较高，不如直接连着 mongodb 测试。
+根据我们之前的经验，我们发现 mock mongodb db 的成本比较高，不如直接连着 mongodb 测试。
 
 但是这种做法要求测试之前我们要准备好的基础数据，这个基础数据有个专有名词，叫 Fixtures。
 
