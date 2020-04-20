@@ -6,13 +6,13 @@ import {TransformInterceptor} from '@kalengo/web'
 
 export async function bootstrap () {
   // init nestjs
-  const moduleFixture = await Test.createTestingModule({
+  const testModule = await Test.createTestingModule({
     imports: [ApplicationModule]
   }).compile()
-  const app = moduleFixture.createNestApplication()
+  const app = testModule.createNestApplication()
   app.useGlobalFilters(new HttpExceptionFilter())
   app.useGlobalInterceptors(new TransformInterceptor())
   await app.init()
   const request = supertest(app.getHttpServer())
-  return {app, request}
+  return {app, request, testModule}
 }

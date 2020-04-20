@@ -69,12 +69,50 @@ beforeAll(async function () {
 ```
 生成 Account  的时候修改一下 UserId
 
-## WebStorm 兼容问题
+## Mock Service
+如果测试中需要 mock service 方法，可以参考
+
+> sample/hello-world/test/users/users-register.e2e-spec.ts
+
+```ts
+it('register with service mock', async () => {
+    let usersService = testModule.get<UsersService>(UsersService)
+    let spy = jest.spyOn(usersService, 'register').mockImplementation(async () => ({mock: true} as any))
+    let {body} = await request
+      .post('/users/register')
+      .send({name: 'nick', phone: '12345'})
+      .expect(201)
+      .expect({
+        'code': 0,
+        'message': 'success',
+        'data': {
+          'mock': true
+        }
+      })
+    console.log('body', body)
+    expect(spy).toHaveBeenCalled()
+    // 一定要 restore 不然会影响其他测试
+    spy.mockRestore()
+})
+```
+因为 nestjs 里依赖注入的对象是单例的，我们从容器里取出 usersService 后，
+使用 jest.spyOn 监听和修改 register 方法，是可以全局生效的。
+
+**注意**记得在测试结束的时候 `spy.mockRestore()`
+
+## 无法快速运行测试的问题
 脚手架里实际存在了两套测试，所以 e2e 测试无法继续享受 WebStorm 点击快速运行测试的便利了。
 
 ![](./images/ws-run-test.png)
 
-如果你需要这个功能, 可以把两套测试的配置位置更换一下。
+这里点击测试的话，会得到如下结果：
 
-- 在 package.json 中配置 e2e 测试；
-- 使用独立的配置文件配置 unit test;
+> No tests found, exiting with code 1
+
+> Run with `--passWithNoTests` to exit with code 0
+
+这是因为 Webstorm 默认读取的是 package.json 中 jest 的配置信息，但是这个测试是 unit test 的，所以会找不到测试文件。
+
+如果需要快速 run  test 这个功能, 可以考虑配置一下 jest 的 run 模板
+把 `--config ./test/jest-e2e.json` 作为固定参数写入模板中。
+

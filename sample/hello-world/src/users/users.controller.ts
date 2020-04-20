@@ -16,7 +16,7 @@ export class UsersController {
     type: RegisterRes
   })
   async register (@Body() createUserDto: UserDto) {
-    await this.usersService.register(createUserDto)
+    return await this.usersService.register(createUserDto)
   }
 
   @Get()
