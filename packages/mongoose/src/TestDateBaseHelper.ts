@@ -10,7 +10,7 @@ export class TestDateBaseHelper {
   static async genFixtures (app, template: object, nums: number, modelName: string, fixData?: (it: object, i: number) => any) {
     if (!fixData) fixData = (it: object, index: number) => it
     let model = app.get(getModelToken(modelName))
-    let items = Array(10)
+    let items = Array(nums)
       .fill(0)
       .map((it: object) => Mock.mock(template))
       .map(fixData)
