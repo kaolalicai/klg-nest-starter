@@ -11,7 +11,8 @@
   "author": "nick",
   "license": "MIT",
   "dependencies": {
-    "@nestjs/common": "^7.0.8",
-    "nestjs-redis": "^1.2.7"
+    "@nestjs/common": "7.0.8",
+    "nestjs-redis": "^1.2.7",
+    "redlock": "^4.1.0"
   }
 }
