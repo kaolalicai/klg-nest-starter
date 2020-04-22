@@ -1,10 +1,11 @@
 import {Module} from '@nestjs/common'
 import {UsersModule} from './users/users.module'
-import {RedisModuleBuilder} from '@kalengo/redis'
+import {RedisModuleBuilder, RedlockModule} from '@kalengo/redis'
 
 @Module({
   imports: [
     RedisModuleBuilder.forRoot(),
+    RedlockModule.forRoot(),
     UsersModule
   ]
 })

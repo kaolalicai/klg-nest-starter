@@ -1,6 +1,6 @@
 import {DynamicModule, Module, Logger} from '@nestjs/common'
 import {RedisModule} from 'nestjs-redis'
-import {parseConfig} from './ConfigParse'
+import {parseConfig} from '../ConfigParse'
 
 async function onClientReady (client) {
   client.on('error',
@@ -11,8 +11,7 @@ async function onClientReady (client) {
 }
 
 @Module({})
-export class RedlockModule {
-  imports
+export class RedisModuleBuilder {
   static forRoot (): DynamicModule {
     let {redisConfig} = parseConfig()
     let connections = []

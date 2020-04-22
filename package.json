@@ -58,6 +58,7 @@
     "mongoose": "^5.9.9",
     "nestjs-redis": "^1.2.7",
     "nestjs-typegoose": "^7.1.14",
+    "redlock": "^4.1.0",
     "tracer": "^1.0.3"
   }
 }

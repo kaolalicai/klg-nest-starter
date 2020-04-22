@@ -1,11 +1,14 @@
-import {Injectable, Logger} from '@nestjs/common'
+import {Injectable, Logger, Inject} from '@nestjs/common'
 import {UserDto} from './users.dto'
-import {RedisService} from '@kalengo/redis'
+import {RedisService, RedlockService} from '@kalengo/redis'
 import * as assert from 'assert'
 
 @Injectable()
 export class UsersService {
-  constructor (private readonly redisService: RedisService) {
+  constructor (
+    private readonly redisService: RedisService,
+    private readonly redlockService: RedlockService
+  ) {
     // blank
   }
 
@@ -15,6 +18,12 @@ export class UsersService {
 
   async findAll () {
     return [1, 2, 3, 4, 5]
+  }
+
+  async mutex () {
+    return await this.redlockService.getMutex().using(async () => {
+      return await this.findAll()
+    }, {resource: 'key1', ttl: 10})
   }
 
   async getAndSet () {

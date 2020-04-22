@@ -1,7 +1,9 @@
 import * as config from 'config'
 import * as _ from 'lodash'
 import * as Lock from 'redlock'
+import * as Redis from 'ioredis'
 import {logger} from '@kalengo/utils'
+import {LockOption} from './RedlockInterface'
 
 const {prefix} = config.redis
 
@@ -9,9 +11,10 @@ export class Redlock {
   redlock: Lock
   prefix: string = prefix || 'core:lock:'
 
-  constructor ({retryCount = 0, retryDelay = 400}) {
+  constructor (client: Redis.Redis, lockOption: LockOption) {
+    let {retryCount = 0, retryDelay = 400} = lockOption
     this.redlock = new Lock(
-      [new RedisUtil().getClient()],
+      [client],
       {
         // the expected clock drift; for more details
         // see http://redis.io/topics/distlock
@@ -19,10 +22,8 @@ export class Redlock {
         // the max number of times Redlock will attempt
         // to lock a resource before erroring
         retryCount,
-
         // the time in ms between attempts
         retryDelay, // time in ms
-
         // the max time in ms randomly added to retries
         // to improve performance under high contention
         // see https://www.awsarchitectureblog.com/2015/03/backoff.html
@@ -70,11 +71,3 @@ export class Redlock {
     return result
   }
 }
-
-export const redlockBuffer = new Redlock({
-  retryCount: Math.floor(1000 * 60 * 15 / 400), // 重试次数 这里需要重试10分钟
-  retryDelay: 400   // 重试间隔
-})
-export const redlockMutex = new Redlock({
-  retryCount: 0
-})

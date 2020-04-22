@@ -1,10 +1,7 @@
-import * as mongoose from 'mongoose'
 import {getModelToken} from 'nestjs-typegoose'
 import {Test} from '@nestjs/testing'
 import {UsersController} from './users.controller'
 import {UsersService} from './users.service'
-
-mongoose.set('debug', true)
 
 describe('UsersService', () => {
   let usersService: UsersService

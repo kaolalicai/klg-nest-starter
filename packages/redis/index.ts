@@ -1,2 +1,6 @@
-export * from './src/RedisModuleBuilder'
+export * from './src/ioredis/RedisModuleBuilder'
+export * from './src/redlock/RedlockModule'
+export * from './src/redlock/Redlock'
+export * from './src/redlock/RedlockService'
+export * from './src/redlock/RedlockInterface'
 export * from 'nestjs-redis'

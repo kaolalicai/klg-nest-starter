@@ -11,6 +11,11 @@ export class UsersController {
     return await this.usersService.getAndSet()
   }
 
+  @Get('/mutex')
+  async mutex () {
+    return await this.usersService.mutex()
+  }
+
   @Get()
   async findAll () {
     return this.usersService.findAll()
