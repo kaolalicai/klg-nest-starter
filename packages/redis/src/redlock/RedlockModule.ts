@@ -10,7 +10,7 @@ import {REDLOCK_MODULE_OPTIONS, MUTEX_LOCK, BUFFER_LOCK} from './redlock.constan
 @Module({
   imports: [RedisModuleBuilder.forRoot()],
   providers: [RedlockService],
-  exports: [RedlockService]
+  exports: [RedlockService, BUFFER_LOCK, MUTEX_LOCK]
 })
 export class RedlockModule {
   constructor (
