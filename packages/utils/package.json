@@ -1,6 +1,6 @@
 {
   "name": "@kalengo/utils",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "description": "aka utils",
   "main": "index.js",
   "scripts": {
