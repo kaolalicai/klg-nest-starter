@@ -2,6 +2,7 @@ import {Injectable, Logger, Inject} from '@nestjs/common'
 import {UserDto} from './users.dto'
 import {RedisService, RedlockService} from '@kalengo/redis'
 import * as assert from 'assert'
+import * as bluebird from 'bluebird'
 
 @Injectable()
 export class UsersService {
@@ -24,6 +25,13 @@ export class UsersService {
     return await this.redlockService.getMutex().using(async () => {
       return await this.findAll()
     }, {resource: 'key1', ttl: 10})
+  }
+
+  async buffer () {
+    return await this.redlockService.getBuffer().using(async () => {
+      await bluebird.delay(0.1)
+      return await this.findAll()
+    }, {resource: 'key2', ttl: 10})
   }
 
   async getAndSet () {

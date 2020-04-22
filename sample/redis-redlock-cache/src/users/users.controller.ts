@@ -16,6 +16,11 @@ export class UsersController {
     return await this.usersService.mutex()
   }
 
+  @Get('/buffer')
+  async buffer () {
+    return await this.usersService.buffer()
+  }
+
   @Get()
   async findAll () {
     return this.usersService.findAll()
