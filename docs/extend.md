@@ -151,11 +151,11 @@ export class UsersService {
 
 你也可以直接 Inject 你需要的锁。
 
-为了帮助大家省去加锁和解锁的操作，我们还提供了一个 using wrapper，会自动检测异常，并做好自动解锁。
-
 ```ts
 @Inject(BUFFER_LOCK) private readonly bufferLock: Redlock
 ```
+
+为了帮助大家省去加锁和解锁的操作，我们还提供了一个 using wrapper，会自动检测异常，并做好自动解锁。
 
 ### 测试
 
@@ -186,7 +186,7 @@ describe('users-redis.e2e-spec', () => {
 ### 注解(TODO)
 ===暂未实现===
 
-用 using 方便包装还是略显麻烦，我们提供了注解工具，可以帮助你快速给 function 上锁。
+用 using 方法包装还是略显麻烦，我们提供了注解工具，可以帮助你快速给 function 上锁。
 
 使用例子
 
@@ -226,6 +226,8 @@ lock key 可以直接指定一个字符串值
 还可以直接指定一个 string 类型的参数作为 lock key
 
 `@LockKey()name: string`
+
+## Cache(TODO)
 
 ## RabbitMQ(TODO)
 
