@@ -7,7 +7,7 @@ import { TransformInterceptor } from '@kalengo/web'
 export async function bootstrap() {
   // init nestjs
   const testModule = await Test.createTestingModule({
-    imports: [ApplicationModule],
+    imports: [ApplicationModule]
   }).compile()
   const app = testModule.createNestApplication()
   app.useGlobalFilters(new HttpExceptionFilter())

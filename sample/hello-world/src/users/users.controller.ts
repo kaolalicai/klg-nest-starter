@@ -5,7 +5,7 @@ import {
   Body,
   HttpException,
   HttpStatus,
-  Query,
+  Query
 } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { IUserModel } from './model/user.model'
@@ -14,7 +14,7 @@ import {
   ApiOkResponse,
   ApiNotFoundResponse,
   ApiCreatedResponse,
-  ApiResponse,
+  ApiResponse
 } from '@nestjs/swagger'
 import { UserDto, FindUsersRes, RegisterRes, FindAccountRes } from './users.dto'
 
@@ -25,7 +25,7 @@ export class UsersController {
   @Post('/register')
   @ApiOkResponse({
     description: 'find one account',
-    type: RegisterRes,
+    type: RegisterRes
   })
   async register(@Body() createUserDto: UserDto) {
     return await this.usersService.register(createUserDto)
@@ -34,7 +34,7 @@ export class UsersController {
   @Get()
   @ApiCreatedResponse({
     description: 'find user list',
-    type: FindUsersRes,
+    type: FindUsersRes
   })
   async findAll(): Promise<IUserModel[]> {
     return this.usersService.findAll()
@@ -42,7 +42,7 @@ export class UsersController {
 
   @Get('/hello')
   @ApiOkResponse({
-    description: 'Hello World!',
+    description: 'Hello World!'
   })
   async hello(): Promise<string> {
     return 'Hello World!'
@@ -58,10 +58,10 @@ export class UsersController {
   @ApiNotFoundResponse()
   @ApiOkResponse({
     description: 'find one account',
-    type: FindAccountRes,
+    type: FindAccountRes
   })
   async getAccountAndUser(
-    @Query('userId') userId: string,
+    @Query('userId') userId: string
   ): Promise<IAccountModel> {
     return this.usersService.getAccountAndUser(userId)
   }

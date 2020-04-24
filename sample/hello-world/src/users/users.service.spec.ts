@@ -17,14 +17,14 @@ describe('UsersService', () => {
         {
           provide: getModelToken('User'),
           useValue: {
-            find: () => ({ a: 1 }),
-          },
+            find: () => ({ a: 1 })
+          }
         },
         {
           provide: getModelToken('Account'),
-          useValue: {},
-        },
-      ],
+          useValue: {}
+        }
+      ]
     }).compile()
     usersService = module.get<UsersService>(UsersService)
   })

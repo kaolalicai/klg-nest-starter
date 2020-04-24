@@ -8,9 +8,9 @@ import { Account } from './model/account.model'
 @Module({
   imports: [
     TypegooseModule.forFeature([User], 'core'),
-    TypegooseModule.forFeature([Account], 'app'),
+    TypegooseModule.forFeature([Account], 'app')
   ],
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [UsersService]
 })
 export class UsersModule {}

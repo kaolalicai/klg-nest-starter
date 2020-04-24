@@ -14,13 +14,13 @@ describe('UsersController', () => {
         UsersService,
         {
           provide: getModelToken('User'),
-          useValue: {},
+          useValue: {}
         },
         {
           provide: getModelToken('Account'),
-          useValue: {},
-        },
-      ],
+          useValue: {}
+        }
+      ]
     }).compile()
 
     usersService = module.get<UsersService>(UsersService)

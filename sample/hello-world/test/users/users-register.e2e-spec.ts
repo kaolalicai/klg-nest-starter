@@ -15,8 +15,8 @@ describe('AppController (e2e) with db ', () => {
         code: 0,
         message: 'success',
         data: {
-          mock: true,
-        },
+          mock: true
+        }
       })
     console.log('body', body)
     expect(spy).toHaveBeenCalled()

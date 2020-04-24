@@ -7,11 +7,11 @@ import { ObjectId } from '@kalengo/mongoose'
 export const UserTemplate = {
   _id: () => ObjectId(),
   name: () => Mock.Random.first(),
-  phone: /1\d{10}/,
+  phone: /1\d{10}/
 }
 
 export const AccountTemplate = {
   _id: () => ObjectId(),
   userId: () => ObjectId(),
-  'balance|10-100': 1,
+  'balance|10-100': 1
 }

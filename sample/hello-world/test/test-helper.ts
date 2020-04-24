@@ -15,14 +15,14 @@ export async function genFixtures(
   template: object,
   nums: number,
   modelName: string,
-  fixData?: (it: object, i: number) => any,
+  fixData?: (it: object, i: number) => any
 ) {
   return TestDateBaseHelper.genFixtures(
     app as any,
     template,
     nums,
     modelName,
-    fixData,
+    fixData
   )
 }
 
