@@ -1,10 +1,10 @@
-import {prop, DocumentType, ReturnModelType} from '@typegoose/typegoose'
+import { prop, DocumentType, ReturnModelType } from '@typegoose/typegoose'
 
 export class Account {
-  @prop({required: true, index: true})
+  @prop({ required: true, index: true })
   userId!: string
 
-  @prop({default: 0})
+  @prop({ default: 0 })
   balance!: number
 }
 

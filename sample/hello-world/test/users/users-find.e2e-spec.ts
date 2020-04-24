@@ -1,5 +1,5 @@
-import {request, genFixtures} from '../test-helper'
-import {UserTemplate} from '../model-mock-template'
+import { request, genFixtures } from '../test-helper'
+import { UserTemplate } from '../model-mock-template'
 
 describe('AppController (e2e) find with fixtures ', () => {
   beforeAll(async function () {
@@ -7,8 +7,6 @@ describe('AppController (e2e) find with fixtures ', () => {
   })
 
   it('find all', () => {
-    request
-      .get('/users')
-      .expect(200)
+    request.get('/users').expect(200)
   })
 })

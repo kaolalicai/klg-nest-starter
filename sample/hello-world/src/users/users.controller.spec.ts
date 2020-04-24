@@ -1,7 +1,7 @@
-import {getModelToken} from 'nestjs-typegoose'
-import {Test} from '@nestjs/testing'
-import {UsersController} from './users.controller'
-import {UsersService} from './users.service'
+import { getModelToken } from 'nestjs-typegoose'
+import { Test } from '@nestjs/testing'
+import { UsersController } from './users.controller'
+import { UsersService } from './users.service'
 
 describe('UsersController', () => {
   let usersController: UsersController
@@ -10,15 +10,17 @@ describe('UsersController', () => {
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       controllers: [UsersController],
-      providers: [UsersService,
+      providers: [
+        UsersService,
         {
           provide: getModelToken('User'),
-          useValue: {}
+          useValue: {},
         },
         {
           provide: getModelToken('Account'),
-          useValue: {}
-        }]
+          useValue: {},
+        },
+      ],
     }).compile()
 
     usersService = module.get<UsersService>(UsersService)
@@ -27,7 +29,7 @@ describe('UsersController', () => {
 
   describe('register', () => {
     it('register a user success', async () => {
-      const userDto = {name: 'miao', phone: '13646876567'}
+      const userDto = { name: 'miao', phone: '13646876567' }
       const mockCallback = jest.fn()
       jest.spyOn(usersService, 'register').mockImplementation(mockCallback)
 
