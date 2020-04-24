@@ -3,20 +3,22 @@ import * as _ from 'lodash'
 export class NumberUtil {
   static defaultDigits = 2
 
-  static setDigits (digits) {
+  static setDigits(digits) {
     this.defaultDigits = digits
   }
 
-  static add (a: number, b: number) {
+  static add(a: number, b: number) {
     return this.fixNumPrecision(a + b)
   }
 
-  static sub (a: number, b: number) {
+  static sub(a: number, b: number) {
     return this.fixNumPrecision(a - b)
   }
 
-  static fixedNumUp (num: number, digits = NumberUtil.defaultDigits) {
-    return parseFloat(Number(num + 5 / Math.pow(10, digits + 1)).toFixed(digits))
+  static fixedNumUp(num: number, digits = NumberUtil.defaultDigits) {
+    return parseFloat(
+      Number(num + 5 / Math.pow(10, digits + 1)).toFixed(digits)
+    )
   }
 
   /**
@@ -24,7 +26,7 @@ export class NumberUtil {
    * @param {number} a
    * @returns {boolean}
    */
-  static closeToZero (a: number) {
+  static closeToZero(a: number) {
     // TODO  非空判断
     return a < 0.1
   }
@@ -37,7 +39,7 @@ export class NumberUtil {
    * @param digits 默认2
    * @returns {number}
    */
-  static fixedNum (num: number, digits = NumberUtil.defaultDigits) {
+  static fixedNum(num: number, digits = NumberUtil.defaultDigits) {
     return _.round(num, digits)
   }
 
@@ -46,7 +48,7 @@ export class NumberUtil {
    * @param {number} num
    * @returns {number}
    */
-  static fixNumPrecision (num: number): number {
+  static fixNumPrecision(num: number): number {
     const left = Math.abs(num - this.fixedNum(num))
     // 是 0.30000000000000004 的情况才 fix
     if (left < 1e-10) {
@@ -60,13 +62,13 @@ export class NumberUtil {
    * @param {object} obj
    * @returns object
    */
-  static fixObj<T extends object> (obj: T): T {
+  static fixObj<T extends object>(obj: T): T {
     if (!obj) return obj
-    for (let key of Object.keys(obj)) {
-      if (typeof (obj[key]) === 'number') {
+    for (const key of Object.keys(obj)) {
+      if (typeof obj[key] === 'number') {
         obj[key] = this.fixNumPrecision(obj[key])
       }
-      if (typeof (obj[key]) === 'object') {
+      if (typeof obj[key] === 'object') {
         obj[key] = this.fixObj(obj[key])
       }
     }
@@ -79,7 +81,7 @@ export class NumberUtil {
    * @param digits
    * @returns {number}
    */
-  static cutNum (num: number, digits = NumberUtil.defaultDigits) {
+  static cutNum(num: number, digits = NumberUtil.defaultDigits) {
     num = this.fixNumPrecision(num)
     return _.floor(num, digits)
   }

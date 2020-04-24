@@ -3,6 +3,4 @@ export interface LockOption {
   retryDelay?: number
 }
 
-export interface BufferOptions extends LockOption {
-
-}
+export type BufferOptions = LockOption

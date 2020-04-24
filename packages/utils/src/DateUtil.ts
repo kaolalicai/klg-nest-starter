@@ -1,5 +1,3 @@
-import {DateUtil as DateUtilOrigin} from 'klg-date'
+import { DateUtil as DateUtilOrigin } from 'klg-date'
 
-export class DateUtil extends DateUtilOrigin {
-
-}
+export class DateUtil extends DateUtilOrigin {}

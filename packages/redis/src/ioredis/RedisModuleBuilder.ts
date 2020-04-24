@@ -1,21 +1,19 @@
-import {DynamicModule, Module, Logger} from '@nestjs/common'
-import {RedisModule} from 'nestjs-redis'
-import {parseConfig} from '../ConfigParse'
+import { DynamicModule, Module, Logger } from '@nestjs/common'
+import { RedisModule } from 'nestjs-redis'
+import { parseConfig } from '../ConfigParse'
 
-async function onClientReady (client) {
-  client.on('error',
-    (err) => {
-      Logger.log('redis error', err)
-    }
-  )
+async function onClientReady(client) {
+  client.on('error', (err) => {
+    Logger.log('redis error', err)
+  })
 }
 
 @Module({})
 export class RedisModuleBuilder {
-  static forRoot (): DynamicModule {
-    let {redisConfig} = parseConfig()
-    let connections = []
-    let con = RedisModule.register({
+  static forRoot(): DynamicModule {
+    const { redisConfig } = parseConfig()
+    const connections = []
+    const con = RedisModule.register({
       url: redisConfig.uri,
       onClientReady: onClientReady
     })

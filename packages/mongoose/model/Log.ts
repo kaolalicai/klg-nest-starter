@@ -1,21 +1,21 @@
-import {prop} from '@typegoose/typegoose'
+import { prop } from '@typegoose/typegoose'
 
 export class BaseLog {
   @prop()
   time: number
-  @prop({sparse: true})
+  @prop({ sparse: true })
   userId: string
-  @prop({sparse: true})
+  @prop({ sparse: true })
   orderId: string
-  @prop({index: true, enum: ['in', 'out'], required: true})
+  @prop({ index: true, enum: ['in', 'out'], required: true })
   type: string
-  @prop({index: true})
+  @prop({ index: true })
   server: string
   @prop()
   useTime: number
-  @prop({index: true})
+  @prop({ index: true })
   interfaceName: string
-  @prop({index: true})
+  @prop({ index: true })
   url: string
   @prop()
   httpMethod: string

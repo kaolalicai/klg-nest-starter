@@ -17,9 +17,9 @@ if (config.has('log')) {
 if (config.has('log.one_line_object') && config.get('log.one_line_object')) {
   Object.assign(defaultLogConfig, {
     preprocess: function (data) {
-      let l = data.args.length
+      const l = data.args.length
       for (let i = 0; i < l; i++) {
-        if (typeof (data.args[i]) === 'object') {
+        if (typeof data.args[i] === 'object') {
           data.args[i] = JSON.stringify(data.args[i], null, 0)
         }
       }
@@ -29,4 +29,4 @@ if (config.has('log.one_line_object') && config.get('log.one_line_object')) {
 
 console.log('aksjs util logger : defaultLogConfig', defaultLogConfig)
 
-export {defaultLogConfig}
+export { defaultLogConfig }

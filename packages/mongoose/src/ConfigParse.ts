@@ -2,15 +2,18 @@ import * as _ from 'lodash'
 import * as config from 'config'
 
 export type MongoConfigs = {
-  url: string,
-  name: string,
+  url: string
+  name: string
   options?: {
-    useNewUrlParser: boolean,
+    useNewUrlParser: boolean
     useUnifiedTopology: boolean
   }
 }
 
-export function parseConfig (): { mongoConfigs: MongoConfigs[], debugMongoose: boolean } {
+export function parseConfig(): {
+  mongoConfigs: MongoConfigs[]
+  debugMongoose: boolean
+} {
   let mongoConfigs: MongoConfigs[]
   try {
     // 兼容旧结构
@@ -32,9 +35,8 @@ export function parseConfig (): { mongoConfigs: MongoConfigs[], debugMongoose: b
     if (config.has('mongodb.debug')) {
       debugMongoose = config.get('mongodb.debug')
     }
-
   } catch (e) {
     throw new Error('mongodb debug config 不正确')
   }
-  return {mongoConfigs, debugMongoose}
+  return { mongoConfigs, debugMongoose }
 }

@@ -2,34 +2,31 @@ import * as config from 'config'
 import * as _ from 'lodash'
 import * as Lock from 'redlock'
 import * as Redis from 'ioredis'
-import {logger} from '@kalengo/utils'
-import {LockOption} from './RedlockInterface'
+import { logger } from '@kalengo/utils'
+import { LockOption } from './RedlockInterface'
 
-const {prefix} = config.redis
+const { prefix } = config.redis
 
 export class Redlock {
   redlock: Lock
   prefix: string = prefix || 'core:lock:'
 
-  constructor (client: Redis.Redis, lockOption: LockOption) {
-    let {retryCount = 0, retryDelay = 400} = lockOption
-    this.redlock = new Lock(
-      [client],
-      {
-        // the expected clock drift; for more details
-        // see http://redis.io/topics/distlock
-        driftFactor: 0.01, // time in ms
-        // the max number of times Redlock will attempt
-        // to lock a resource before erroring
-        retryCount,
-        // the time in ms between attempts
-        retryDelay, // time in ms
-        // the max time in ms randomly added to retries
-        // to improve performance under high contention
-        // see https://www.awsarchitectureblog.com/2015/03/backoff.html
-        retryJitter: 400 // time in ms
-      }
-    )
+  constructor(client: Redis.Redis, lockOption: LockOption) {
+    const { retryCount = 0, retryDelay = 400 } = lockOption
+    this.redlock = new Lock([client], {
+      // the expected clock drift; for more details
+      // see http://redis.io/topics/distlock
+      driftFactor: 0.01, // time in ms
+      // the max number of times Redlock will attempt
+      // to lock a resource before erroring
+      retryCount,
+      // the time in ms between attempts
+      retryDelay, // time in ms
+      // the max time in ms randomly added to retries
+      // to improve performance under high contention
+      // see https://www.awsarchitectureblog.com/2015/03/backoff.html
+      retryJitter: 400 // time in ms
+    })
   }
 
   /**
@@ -37,12 +34,18 @@ export class Redlock {
    * @param func 待执行的函数
    * @param lockParam options
    */
-  async using (func: Function, lockParam: { resource: string, ttl?: number, autoUnLock?: boolean }) {
+  async using(
+    func: Function,
+    lockParam: { resource: string; ttl?: number; autoUnLock?: boolean }
+  ) {
     lockParam.ttl = _.toInteger(lockParam.ttl) || 1000 * 60
     if (lockParam.autoUnLock === undefined) lockParam.autoUnLock = true
     let lock = null
     try {
-      lock = await this.redlock.lock(this.prefix + lockParam.resource, lockParam.ttl)
+      lock = await this.redlock.lock(
+        this.prefix + lockParam.resource,
+        lockParam.ttl
+      )
       logger.info('lock success ', lock.resource)
     } catch (err) {
       logger.info('系统繁忙，请稍后再试 lock Error ', err)
