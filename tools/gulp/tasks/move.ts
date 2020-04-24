@@ -8,7 +8,7 @@ import {join} from 'path'
  * `boilerplate/*` dirs.
  */
 function moveBoilerplate () {
-  return src(['sample/hello-world/**/*', '!sample/hello-world/node_modules/**/*', '!sample/hello-world/dist/**/*'])
+  return src(['sample/hello-world/**/*', 'sample/hello-world/**/.*','!sample/hello-world/.idea','!sample/hello-world/node_modules/**/*', '!sample/hello-world/dist/**/*'])
     .pipe(dest('template/boilerplate/'))
 }
 
