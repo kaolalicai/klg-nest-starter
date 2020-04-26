@@ -365,4 +365,7 @@ async protect (@Req() req: Request): Promise<string> {
 ```
 
 在 Controller 中通过 request 对象获取即可
+
+最后, 完整的项目例子请看本项目 `sample/nest-auth`
+
   
