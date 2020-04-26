@@ -1,0 +1,23 @@
+# dependencies
+node_modules/
+
+# tests
+coverage/
+.nyc_output/
+
+# IDE
+/.idea
+/.awcache
+/.vscode
+*.code-workspace
+
+# bundle
+packages/**/*.d.ts
+packages/**/*.js
+*.log
+morph.ts
+
+# documentation
+dist/
+boilerplate
+temp
