@@ -368,4 +368,14 @@ async protect (@Req() req: Request): Promise<string> {
 
 最后, 完整的项目例子请看本项目 `sample/nest-auth`
 
+**问题**
+Q1:前后端分离的项目中，如果前端页面没有用 express 来承载，要如何实现登陆跳转？
+
+A: 后端接入 Keycloak，前端项目使用 ajax 请求后端，检测到 302 跳转请求时完成页面跳转。
+
+Q2:Keycloak 的登陆状态是是用 Cookie 来保存的，Native 端如何接入？
+
+A: Native 模拟 browser 跳转到 H5 页面登陆，保存 cookie，后续的请求中都要带上 cookie 即可
+
+
   

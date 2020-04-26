@@ -8,7 +8,7 @@ import {join} from 'path'
  * `boilerplate/*` dirs.
  */
 function moveBoilerplate () {
-  return src(['sample/hello-world/**/*', 'sample/hello-world/**/.*','!sample/hello-world/.idea','!sample/hello-world/node_modules/**/*', '!sample/hello-world/dist/**/*'])
+  return src(['sample/hello-world/**/*', 'sample/hello-world/**/.*', '!sample/hello-world/.idea', '!sample/hello-world/node_modules/**/*', '!sample/hello-world/dist/**/*'])
     .pipe(dest('template/boilerplate/'))
 }
 
@@ -18,7 +18,7 @@ function moveBoilerplate () {
  */
 function move () {
   const samplesDirs = getDirs(samplePath)
-2
+  2
   const distFiles = src(['node_modules/@kalengo/**/*'])
 
   return samplesDirs.reduce(
@@ -28,5 +28,5 @@ function move () {
 }
 
 task('move:boilerplate', moveBoilerplate)
-task('move:template', series('clean:template', 'move:boilerplate'))
+task('move:template', series('copy-misc', 'clean:template', 'move:boilerplate'))
 task('move', move)
