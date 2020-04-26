@@ -232,3 +232,137 @@ lock key 可以直接指定一个字符串值
 ## RabbitMQ(TODO)
 
 TODO
+
+## Keycloak SSO 认证和授权
+Keycloak是一种面向现代应用程序和服务的开源的IAM(身份识别与访问管理)解决方案。
+
+这里将介绍如何在 Nest 中接入 Keycloak.
+
+在开始之前，请阅读官方的 Node.js [接入文档](https://github.com/keycloak/keycloak-nodejs-connect)，重点看
+https://github.com/keycloak/keycloak-nodejs-connect/blob/master/example/index.js
+
+在对官方 demo 有了大致认识之后，就可以开始准备接入了
+
+初始化 Keycloak：
+> src/keycloak.ts
+
+```ts
+import * as KeycloakConnect from 'keycloak-connect'
+import * as session from 'express-session'
+import {INestApplication} from '@nestjs/common'
+
+var memoryStore = new session.MemoryStore()
+
+// keycloak 服务的配置文件，可以在 keycloak 后台中导出
+const keycloak: any = new KeycloakConnect(
+  {
+    store: memoryStore
+  },
+  {
+    'realm': 'nodejs-example',
+    'realm-public-key': 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCrVrCuTtArbgaZzL1hvh0xtL5mc7o0NqPVnYXkLvgcwiC3BjLGw1tGEGoJaXDuSaRllobm53JBhjx33UNv+5z/UMG4kytBWxheNVKnL6GgqlNabMaFfPLPCF8kAgKnsi79NMo+n6KnSY8YeUmec/p2vjO2NjsSAVcWEQMVhJ31LwIDAQAB',
+    'auth-server-url': 'http://10.10.21.4:8080/auth',
+    'ssl-required': 'external',
+    'resource': 'nodejs-connect',
+    'public-client': true
+  } as any)
+
+export function registerKeycloak (app: INestApplication) {
+  app.use(session({
+    secret: 'mySecret',
+    resave: false,
+    saveUninitialized: true,
+    store: memoryStore
+  }))
+
+  /**
+   * 注册 logout 中间件
+   * 请求 logout 即可退出中间件
+   */
+  app.use(keycloak.middleware({
+    logout: '/logout',
+    admin: '/'
+  }))
+
+  /**
+   * 默认拦截所有接口
+   */
+  app.use(keycloak.protect())
+}
+
+export {keycloak, session, memoryStore}
+
+```
+
+keycloak 需要 session store 来存储上下文，而且需要定义好 logout 的接口，而且这里默认拦截了所有接口，
+keycloak 会检验用户是否登录，如果没登陆将会跳转到 keycloak 登陆页面。
+
+然后在注册到 express 中
+
+> main.ts
+
+```ts
+async function bootstrap () {
+  const app = await NestFactory.create(ApplicationModule)
+  registerKeycloak(app)
+  await app.listen(process.env.PORT || 3000)
+  console.log(
+    `Application(${process.env.NODE_ENV}) is running on: ${await app.getUrl()}`
+  )
+}
+
+bootstrap()
+```
+
+这样，keycloak 的拦截就能生效了，完成了认证效果。
+
+接下来将如何授权，这里采用最简单的模式，基于角色的授权模式。
+为每一个接口定义可以访问的角色：
+
+> src/app.module.ts
+
+```ts
+export class ApplicationModule {
+  configure (consumer: MiddlewareConsumer) {
+    consumer
+      .apply(keycloak.protect('realm:admin'))
+      .forRoutes({ path: '/users/protect', method: RequestMethod.GET })
+    consumer
+      .apply(keycloak.protect('realm:user'))
+      .forRoutes({ path: '/users/', method: RequestMethod.GET })
+  }
+}
+```
+
+上述配置的意思是：
+- get /users/protect 接口只允许 admin 这个角色访问（realm 级别的角色)
+- get /users/ 接口只允许 user 这个角色访问
+
+如果一个接口允许多个角色访问，可以这样定义
+```ts
+consumer
+      .apply(keycloak.protect(function pants(token, request) {
+        return token.hasRole( 'realm:nicepants') || token.hasRole( 'mr-fancypants');
+      }))
+      .forRoutes({ path: '/users/', method: RequestMethod.GET })
+```
+
+如果无法理解这个配置，请仔细阅读：
+- [Nest 中间件](https://docs.nestjs.cn/7/middlewares)
+- [keycloak.protect](https://github.com/keycloak/keycloak-nodejs-connect/blob/c695149834651459f06945bd40eb8d8465fef541/keycloak.js#L187)
+
+两份文档
+
+如果需要获取当前登陆用户的信息，可以这样做：
+> src/users/users.controller.ts
+```ts
+@Get('/protect')
+async protect (@Req() req: Request): Promise<string> {
+    let userInfo = (req as any).kauth.grant.access_token.content
+    console.log('userInfo', userInfo)
+    return 'protect info'
+}
+```
+
+在 Controller 中通过 request 对象获取即可
+  
