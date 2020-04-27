@@ -35,7 +35,7 @@ export function registerKeycloak (app: INestApplication) {
   /**
    * 默认拦截所有接口
    */
-  app.use(keycloak.protect())
+  // app.use(keycloak.protect())
 }
 
 export { keycloak, session, memoryStore }
