@@ -393,7 +393,9 @@ Authentication Flow Overrides 下面
       let grant = await keycloak.grantManager.obtainDirectly(username, password)
       console.info('grant', grant)
       keycloak.storeGrant(grant, req, res)
-      res.json({ code: 0, message: 'success' })
+      let access_token = _.get(grant, 'access_token.token')
+      console.info('access_token', access_token)
+      res.json({code: 0, message: 'success', access_token})
     }catch (e) {
       console.info('login fail ', e)
       res.json({ code: 1, message: 'login fail' })
@@ -403,7 +405,12 @@ Authentication Flow Overrides 下面
 
 这里写死了 username， password，实际用的时候改成前端传参即可
 通过 API 授权后，会获得一个 grant，里面保存了 token，再把这个 grant store 到 session 中即可。
-这样，前端只要先请求这个登陆接口，再把请求结果的 cookie 保存起来即可
+这样，前端只要先请求这个登陆接口，返回值中能获得一个 access_token
+后续请求后端接口的时候都带上这个 access_token，具体做法：
+
+> headers: { Authorization: `Bearer ${access_token}` }
+
+在请求头里设置一个 headers，Key 是 Authorization，值是 `Bearer ${access_token}`
 
 ### 总结
 

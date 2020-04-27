@@ -1,8 +1,9 @@
 import {Controller, Get, Post, Body, Req, HttpException, HttpStatus, Query, Res} from '@nestjs/common'
-import { Request, Response } from 'express'
-import { UsersService } from './users.service'
-import { ApiOkResponse, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger'
-import { UserDto, FindUsersRes, RegisterRes, FindAccountRes } from './users.dto'
+import {Request, Response} from 'express'
+import * as _ from 'lodash'
+import {UsersService} from './users.service'
+import {ApiOkResponse, ApiCreatedResponse, ApiResponse} from '@nestjs/swagger'
+import {UserDto, FindUsersRes, RegisterRes, FindAccountRes} from './users.dto'
 import {keycloak} from '../keycloak'
 
 @Controller('users')
@@ -44,7 +45,7 @@ export class UsersController {
   }
 
   @Get('/err')
-  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({status: 403, description: 'Forbidden.'})
   async err (): Promise<string> {
     throw new HttpException('Forbidden', HttpStatus.FORBIDDEN)
   }
@@ -53,14 +54,16 @@ export class UsersController {
   async login (@Req() req: Request, @Res() res: Response): Promise<void> {
     let username = 'user'
     let password = 'password'
-    try{
+    try {
       let grant = await keycloak.grantManager.obtainDirectly(username, password)
       console.info('grant', grant)
       keycloak.storeGrant(grant, req, res)
-      res.json({ code: 0, message: 'success' })
-    }catch (e) {
+      let access_token = _.get(grant, 'access_token.token')
+      console.info('access_token', access_token)
+      res.json({code: 0, message: 'success', access_token})
+    } catch (e) {
       console.info('login fail ', e)
-      res.json({ code: 1, message: 'login fail' })
+      res.json({code: 1, message: 'login fail'})
     }
   }
 
