@@ -14,11 +14,11 @@ module.exports = {
       ['/quickstart', '快速开始'],
       ['/web', 'Web生命周期'],
       ['/test', '测试'],
-      ['/config', '应用配置'],
       ['/mongoose', 'Mongodb'],
       ['/code-style', '代码风格'],
-      ['/klg', '工具集'],
       ['/extend', '其他技术'],
+      ['/config', '应用配置'],
+      ['/klg', '工具集'],
       ['/contribut', '如何贡献'],
     ]
   }

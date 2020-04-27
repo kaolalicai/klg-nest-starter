@@ -234,10 +234,12 @@ lock key 可以直接指定一个字符串值
 TODO
 
 ## Keycloak SSO 认证和授权
+
 Keycloak是一种面向现代应用程序和服务的开源的IAM(身份识别与访问管理)解决方案。
 
 这里将介绍如何在 Nest 中接入 Keycloak.
 
+### 初始化
 在开始之前，请阅读官方的 Node.js [接入文档](https://github.com/keycloak/keycloak-nodejs-connect)，重点看
 https://github.com/keycloak/keycloak-nodejs-connect/blob/master/example/index.js
 
@@ -316,6 +318,7 @@ bootstrap()
 
 这样，keycloak 的拦截就能生效了，完成了认证效果。
 
+### 授权
 接下来将如何授权，这里采用最简单的模式，基于角色的授权模式。
 为每一个接口定义可以访问的角色：
 
@@ -353,6 +356,8 @@ consumer
 
 两份文档
 
+### 获取用户信息
+
 如果需要获取当前登陆用户的信息，可以这样做：
 > src/users/users.controller.ts
 ```ts
@@ -366,16 +371,54 @@ async protect (@Req() req: Request): Promise<string> {
 
 在 Controller 中通过 request 对象获取即可
 
-最后, 完整的项目例子请看本项目 `sample/nest-auth`
+### 自定义登陆接口
+因为很多项目是前后端分离加上有些前端是 native 的原因，我们需要一个自定义的登陆接口。
+在开始写接口之前，我们要修改一下 client 的配置，让它支持API 登陆。
+打开 Keycloak 管理后台，找到你的 Client，在 Settings 中：
+
+- Direct Access Grants Enabled 设置为 **On**
+
+Authentication Flow Overrides 下面
+
+- Browser Flow 设置为 **browser**
+- Direct Grant Flow  设置为 **direct grant**
+
+完成配置之后，新增一个登陆接口：
+```ts
+@Get('/login')
+  async login (@Req() req: Request, @Res() res: Response): Promise<void> {
+    let username = 'user'
+    let password = 'password2'
+    try{
+      let grant = await keycloak.grantManager.obtainDirectly(username, password)
+      console.info('grant', grant)
+      keycloak.storeGrant(grant, req, res)
+      res.json({ code: 0, message: 'success' })
+    }catch (e) {
+      console.info('login fail ', e)
+      res.json({ code: 1, message: 'login fail' })
+    }
+  }
+```
+
+这里写死了 username， password，实际用的时候改成前端传参即可
+通过 API 授权后，会获得一个 grant，里面保存了 token，再把这个 grant store 到 session 中即可。
+这样，前端只要先请求这个登陆接口，再把请求结果的 cookie 保存起来即可
+
+### 总结
+
+最后, 完整的项目例子请看**本项目** `sample/nest-auth`
 
 **问题**
 Q1:前后端分离的项目中，如果前端页面没有用 express 来承载，要如何实现登陆跳转？
 
-A: 后端接入 Keycloak，前端项目使用 ajax 请求后端，检测到 302 跳转请求时完成页面跳转。
+A1: 使用自定义登陆接口
+A2: 后端接入 Keycloak，前端项目使用 ajax 请求后端，检测到 302 跳转请求时完成页面跳转。
 
 Q2:Keycloak 的登陆状态是是用 Cookie 来保存的，Native 端如何接入？
 
-A: Native 模拟 browser 跳转到 H5 页面登陆，保存 cookie，后续的请求中都要带上 cookie 即可
+A1: 使用自定义登陆接口
+A2: Native 模拟 browser 跳转到 H5 页面登陆，保存 cookie，后续的请求中都要带上 cookie 即可
 
 
   
