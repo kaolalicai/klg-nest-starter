@@ -52,7 +52,7 @@ export class UsersController {
   @Get('/login')
   async login (@Req() req: Request, @Res() res: Response): Promise<void> {
     let username = 'user'
-    let password = 'password2'
+    let password = 'password'
     try{
       let grant = await keycloak.grantManager.obtainDirectly(username, password)
       console.info('grant', grant)

@@ -8,10 +8,10 @@ const keycloak: any = new KeycloakConnect({
   store: memoryStore
 }, {
   "realm": "nodejs-example",
+  "bearer-only": true,
   "auth-server-url": "http://keycloak.sso.dev.smart2.cn/auth/",
   "ssl-required": "external",
   "resource": "nodejs-connect",
-  "public-client": true,
   "confidential-port": 0
 } as any)
 

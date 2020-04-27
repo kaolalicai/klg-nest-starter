@@ -410,15 +410,41 @@ Authentication Flow Overrides 下面
 最后, 完整的项目例子请看**本项目** `sample/nest-auth`
 
 **问题**
+
 Q1:前后端分离的项目中，如果前端页面没有用 express 来承载，要如何实现登陆跳转？
 
 A1: 使用自定义登陆接口
+
 A2: 后端接入 Keycloak，前端项目使用 ajax 请求后端，检测到 302 跳转请求时完成页面跳转。
 
 Q2:Keycloak 的登陆状态是是用 Cookie 来保存的，Native 端如何接入？
 
 A1: 使用自定义登陆接口
+
 A2: Native 模拟 browser 跳转到 H5 页面登陆，保存 cookie，后续的请求中都要带上 cookie 即可
+
+Q3: 使用了 API 登陆后，如何不让页面自动跳转？
+
+A: 这个问题比较复杂，首先要理解 sso 的意义，在最前端登陆，后续的服务都不需要登陆。
+
+其次，Keycloak 的 client 有多种类型
+
+- public：一般是指前端资源，通常服务页面渲染和提供登陆接口
+- bearer-only： 只传递 token，一般是指中台服务，做资源聚合
+- confidential：资源服务器，指后端服务
+
+但是很多时候我们的服务实现了三种 client 的功能，这样的话就比较复杂了。
+
+解决方案1 ：
+服务内同时对接多个 client：
+- public client 提供登陆接口；
+- bearer-only 的 client 负责授权，检查接口是否能被角色访问；
+
+解决方案2：
+- 把登陆功能独立为一个服务，提供登陆接口和登陆页面两种登陆方式
+- 把业务服务的client 设置为 bearer-only，用户访问未授权资源就不会自动跳转，而是得到 code 403 Access denied
+
+
 
 
   
