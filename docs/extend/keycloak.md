@@ -4,6 +4,18 @@ Keycloak是一种面向现代应用程序和服务的开源的IAM(身份识别�
 
 这里将介绍如何在 Nest 中接入 Keycloak.
 
+再开始之前，我们要理解 sso 的意义，在最前端登陆，后续的服务都不需要登陆。
+
+其次，Keycloak 的 client 有多种类型
+
+- public：一般是指前端资源，通常服务页面渲染和提供登陆接口
+- bearer-only： 只传递 token，一般是指中台服务，做资源聚合
+- confidential：资源服务器，指后端服务
+
+public client 才能提供登陆功能，包括网页和接口登陆
+
+bearer-only client 只能完成授权
+
 ## 初始化
 在开始之前，请阅读官方的 Node.js [接入文档](https://github.com/keycloak/keycloak-nodejs-connect)，重点看
 https://github.com/keycloak/keycloak-nodejs-connect/blob/master/example/index.js
@@ -209,14 +221,6 @@ A2: Native 模拟 browser 跳转到 H5 页面登陆，保存 cookie，后续的�
 **Q3: 使用了 API 登陆后，如何不让页面自动跳转？**
 
 A: 这个问题比较复杂，首先要理解 sso 的意义，在最前端登陆，后续的服务都不需要登陆。
-
-其次，Keycloak 的 client 有多种类型
-
-- public：一般是指前端资源，通常服务页面渲染和提供登陆接口
-- bearer-only： 只传递 token，一般是指中台服务，做资源聚合
-- confidential：资源服务器，指后端服务
-
-但是很多时候我们的服务实现了三种 client 的功能，这样的话就比较复杂了。
 
 解决方案1 ：
 服务内同时对接多个 client：
