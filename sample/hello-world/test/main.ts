@@ -1,8 +1,8 @@
 import * as supertest from 'supertest'
 import { ApplicationModule } from '../src/app.module'
 import { Test } from '@nestjs/testing'
-import { HttpExceptionFilter } from '../src/common/filters/http-exception.filter'
-import { TransformInterceptor } from '@kalengo/web'
+import { appSettings } from '../src/settings'
+export { prefix } from '../src/settings'
 
 export async function bootstrap() {
   // init nestjs
@@ -10,8 +10,7 @@ export async function bootstrap() {
     imports: [ApplicationModule]
   }).compile()
   const app = testModule.createNestApplication()
-  app.useGlobalFilters(new HttpExceptionFilter())
-  app.useGlobalInterceptors(new TransformInterceptor())
+  appSettings(app)
   await app.init()
   const request = supertest(app.getHttpServer())
   return { app, request, testModule }

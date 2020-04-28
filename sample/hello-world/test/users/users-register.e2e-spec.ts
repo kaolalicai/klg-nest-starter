@@ -1,4 +1,4 @@
-import { request, testModule } from '../test-helper'
+import { request, testModule, prefix } from '../test-helper'
 import { UsersService } from '../../src/users/users.service'
 
 describe('AppController (e2e) with db ', () => {
@@ -7,8 +7,10 @@ describe('AppController (e2e) with db ', () => {
     const spy = jest
       .spyOn(usersService, 'register')
       .mockImplementation(async () => ({ mock: true } as any))
+
+    console.log('prefix', prefix)
     const { body } = await request
-      .post('/users/register')
+      .post(prefix + '/users/register')
       .send({ name: 'nick', phone: '12345' })
       .expect(201)
       .expect({
@@ -26,7 +28,7 @@ describe('AppController (e2e) with db ', () => {
 
   it('register', async () => {
     const { body } = await request
-      .post('/users/register')
+      .post(prefix + '/users/register')
       .send({ name: 'nick', phone: '12345' })
       .expect(201)
     expect(body.code).toEqual(0)

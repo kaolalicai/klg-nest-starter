@@ -17,7 +17,7 @@ import {
   ApiResponse
 } from '@nestjs/swagger'
 import { UserDto, FindUsersRes, RegisterRes, FindAccountRes } from './users.dto'
-import {DateUtil, logger} from '@kalengo/utils'
+import { DateUtil, logger } from '@kalengo/utils'
 
 @Controller('users')
 export class UsersController {
