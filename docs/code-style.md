@@ -24,7 +24,7 @@ TypeScript core team 在 2019 的时候宣称考虑到 eslint 比 tslint 有着�
 
 在设置中找到 Prettier 的配置项，勾选 `Run on save for files` 即可
 
-### Git hooks(TODO)
+### Git hooks
 安装 husky 这个工具
 
 ```shell script
@@ -36,7 +36,7 @@ npm run i husky -D
 ```js
 "husky": {
    "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "npm run format"
     }
 }
 ```
