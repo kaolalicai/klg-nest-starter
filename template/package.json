@@ -12,8 +12,7 @@
     "build": "npm run clean && npx klg-init temp --force --silent --template=./",
     "pretest": "npm run build && npm run install-deps",
     "test": "cd temp && npm test",
-    "install-deps": "cd temp && npm i --registry=https://registry.npm.taobao.org",
-    "publish": "npm publish --registry https://registry.npmjs.org"
+    "install-deps": "cd temp && npm i --registry=https://registry.npm.taobao.org"
   },
   "repository": {
     "type": "git",
