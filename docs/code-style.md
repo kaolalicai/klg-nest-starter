@@ -38,6 +38,58 @@ npm run i husky -D
    "hooks": {
       "pre-commit": "npm run lint"
     }
-},
+}
 ```
 我们在git的hook的阶段来执行相应的命令，比如上述的例子是在pre-commit这个hook也就是在提交之前进行lint的检测。
+
+## Check commit message
+
+我们将使用  [commitlint](https://github.com/conventional-changelog/commitlint) 来帮助我们检查 commit message。
+
+安装对应的包：
+```bash
+npm install @commitlint/cli @commitlint/config-conventional -D
+```
+
+添加配置文件
+> commitlint.config.js
+
+```js
+module.exports = {
+  extends: ['@commitlint/config-conventional'],
+  rules: {
+    'type-enum': [2, 'always', [
+      "feat", "fix", "docs", "style", "refactor", "perf", "test", "build", "ci", "chore", "revert"
+    ]],
+    'subject-full-stop': [0, 'never'],
+    'subject-case': [0, 'never']
+  }
+}
+```
+
+接着在package.json 新增 husky的配置：
+
+```js
+"husky": {
+   "hooks": {
+      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
+    }
+}
+```
+
+这样就完成配置，当我们 commit 的时候，commitlint 就会帮我们完成格式校验。
+
+一个正常的 commit message 看起来是这样的：
+
+> type(scope?): subject  #scope is optional
+
+或者这样：
+
+> fix(server): send cors headers
+
+> feat(blog): add comment section
+
+> docs: add comment section
+
+不符合规则的 commit 将会被 block
+
