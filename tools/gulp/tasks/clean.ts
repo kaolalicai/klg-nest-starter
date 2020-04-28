@@ -14,7 +14,9 @@ function cleanOutput () {
       `${ source }/**/*.d.ts`,
       `${ source }/**/*.js.map`,
       `${ source }/**/*.d.ts.map`,
-      `${ source }/**/node_modules/`
+      `${ source }/**/node_modules/`,
+      `${ source }/**/package-lock.json`,
+      `sample/**/package-lock.json`,
     ],
     {
       read: false
