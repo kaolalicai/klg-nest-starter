@@ -93,3 +93,5 @@ module.exports = {
 
 不符合规则的 commit 将会被 block
 
+[完整项目示例](https://github.com/kaolalicai/klg-nest-starter/tree/master/sample/hello-world)
+
