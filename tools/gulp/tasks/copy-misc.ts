@@ -8,7 +8,7 @@ import {samplePath, packagesPath} from '../config'
  */
 function copyMiscToSample () {
   const directories = getDirs(samplePath)
-  const distFiles = src(['./','./common/**/*', './common/**/.*'])
+  const distFiles = src(['./common/*', './common/.*'])
   return directories.reduce(
     (distFile, dir) => {
       return distFile.pipe(dest(dir))
