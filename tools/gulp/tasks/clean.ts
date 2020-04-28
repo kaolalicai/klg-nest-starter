@@ -13,7 +13,8 @@ function cleanOutput () {
       `${source}/**/*.js`,
       `${source}/**/*.d.ts`,
       `${source}/**/*.js.map`,
-      `${source}/**/*.d.ts.map`
+      `${source}/**/*.d.ts.map`,
+      `!${source}/node_modules/*`
     ],
     {
       read: false
