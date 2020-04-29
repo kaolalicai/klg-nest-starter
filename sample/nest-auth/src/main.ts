@@ -6,7 +6,7 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter'
 import { TransformInterceptor } from '@kalengo/web'
 import { registerKeycloak } from './keycloak'
 
-async function bootstrap () {
+async function bootstrap() {
   const app = await NestFactory.create(ApplicationModule)
 
   // request log

@@ -35,4 +35,8 @@ describe('AppController (e2e) with db ', () => {
     expect(body.message).toEqual('success')
     expect(body.data.name).toEqual('nick')
   })
+
+  it('find all', () => {
+    request.get(prefix + '/users').expect(200)
+  })
 })

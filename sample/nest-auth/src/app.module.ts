@@ -3,12 +3,10 @@ import { UsersModule } from './users/users.module'
 import { keycloak } from './keycloak'
 
 @Module({
-  imports: [
-    UsersModule
-  ]
+  imports: [UsersModule]
 })
 export class ApplicationModule {
-  configure (consumer: MiddlewareConsumer) {
+  configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(keycloak.protect('realm:admin'))
       .forRoutes({ path: '/users/protect', method: RequestMethod.GET })

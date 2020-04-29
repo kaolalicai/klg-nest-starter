@@ -3,18 +3,17 @@ import { UserDto } from './users.dto'
 
 @Injectable()
 export class UsersService {
-  constructor () {
-  }
+  constructor() {}
 
-  async register (createUsersDto: UserDto): Promise<string> {
+  async register(createUsersDto: UserDto): Promise<string> {
     return 'register success'
   }
 
-  async findAll (): Promise<number[]> {
+  async findAll(): Promise<number[]> {
     return [1, 2, 3, 4, 5]
   }
 
-  async update (userId: string): Promise<string> {
+  async update(userId: string): Promise<string> {
     return 'update success'
   }
 }

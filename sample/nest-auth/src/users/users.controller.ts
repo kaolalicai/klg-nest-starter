@@ -1,22 +1,31 @@
-import {Controller, Get, Post, Body, Req, HttpException, HttpStatus, Query, Res} from '@nestjs/common'
-import {Request, Response} from 'express'
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Req,
+  HttpException,
+  HttpStatus,
+  Query,
+  Res
+} from '@nestjs/common'
+import { Request, Response } from 'express'
 import * as _ from 'lodash'
-import {UsersService} from './users.service'
-import {ApiOkResponse, ApiCreatedResponse, ApiResponse} from '@nestjs/swagger'
-import {UserDto, FindUsersRes, RegisterRes, FindAccountRes} from './users.dto'
-import {keycloak} from '../keycloak'
+import { UsersService } from './users.service'
+import { ApiOkResponse, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger'
+import { UserDto, FindUsersRes, RegisterRes, FindAccountRes } from './users.dto'
+import { keycloak } from '../keycloak'
 
 @Controller('users')
 export class UsersController {
-  constructor (private readonly usersService: UsersService) {
-  }
+  constructor(private readonly usersService: UsersService) {}
 
   @Post('/register')
   @ApiOkResponse({
     description: 'find one account',
     type: RegisterRes
   })
-  async register (@Body() createUserDto: UserDto) {
+  async register(@Body() createUserDto: UserDto) {
     return await this.usersService.register(createUserDto)
   }
 
@@ -25,7 +34,7 @@ export class UsersController {
     description: 'find user list',
     type: FindUsersRes
   })
-  async findAll (): Promise<number[]> {
+  async findAll(): Promise<number[]> {
     return this.usersService.findAll()
   }
 
@@ -33,25 +42,25 @@ export class UsersController {
   @ApiOkResponse({
     description: 'Hello World!'
   })
-  async hello (): Promise<string> {
+  async hello(): Promise<string> {
     return 'Hello World!'
   }
 
   @Get('/protect')
-  async protect (@Req() req: Request): Promise<string> {
+  async protect(@Req() req: Request): Promise<string> {
     let userInfo = (req as any).kauth.grant.access_token.content
     console.log('userInfo', userInfo)
     return 'protect info'
   }
 
   @Get('/err')
-  @ApiResponse({status: 403, description: 'Forbidden.'})
-  async err (): Promise<string> {
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async err(): Promise<string> {
     throw new HttpException('Forbidden', HttpStatus.FORBIDDEN)
   }
 
   @Get('/login')
-  async login (@Req() req: Request, @Res() res: Response): Promise<void> {
+  async login(@Req() req: Request, @Res() res: Response): Promise<void> {
     let username = 'user'
     let password = 'password'
     try {
@@ -60,10 +69,10 @@ export class UsersController {
       keycloak.storeGrant(grant, req, res)
       let access_token = _.get(grant, 'access_token.token')
       console.info('access_token', access_token)
-      res.json({code: 0, message: 'success', access_token})
+      res.json({ code: 0, message: 'success', access_token })
     } catch (e) {
       console.info('login fail ', e)
-      res.json({code: 1, message: 'login fail'})
+      res.json({ code: 1, message: 'login fail' })
     }
   }
 
@@ -72,9 +81,7 @@ export class UsersController {
     description: 'update one user',
     type: FindAccountRes
   })
-  async update (
-    @Query('userId') userId: string
-  ): Promise<string> {
+  async update(@Query('userId') userId: string): Promise<string> {
     return this.usersService.update(userId)
   }
 }

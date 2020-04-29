@@ -1,7 +1,7 @@
-import {INestApplication} from '@nestjs/common'
+import { INestApplication } from '@nestjs/common'
 import * as supertest from 'supertest'
-import {bootstrap, prefix as pre} from './main'
-import {TestingModule} from '@nestjs/testing'
+import { bootstrap, prefix as pre } from './main'
+import { TestingModule } from '@nestjs/testing'
 
 process.env.NODE_ENV = 'test'
 console.log('current env', process.env.NODE_ENV)
@@ -21,4 +21,4 @@ beforeAll(async function () {
 afterAll(async () => {
   await app.close()
 })
-export {app, request, testModule, prefix}
+export { app, request, testModule, prefix }
