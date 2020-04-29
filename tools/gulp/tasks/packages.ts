@@ -9,6 +9,7 @@ const packages = {
   utils: createProject('packages/utils/tsconfig.json'),
   web: createProject('packages/web/tsconfig.json'),
   redis: createProject('packages/redis/tsconfig.json'),
+  keycloak: createProject('packages/keycloak/tsconfig.json'),
   mongoose: createProject('packages/mongoose/tsconfig.json')
 }
 

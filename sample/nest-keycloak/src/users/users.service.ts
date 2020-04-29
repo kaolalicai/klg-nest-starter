@@ -1,19 +1,14 @@
-import { Injectable } from '@nestjs/common'
-import { UserDto } from './users.dto'
+import {Injectable} from '@nestjs/common'
+import {UserDto} from './users.dto'
 
 @Injectable()
 export class UsersService {
-  constructor() {}
 
-  async register(createUsersDto: UserDto): Promise<UserDto> {
-    return createUsersDto
-  }
+    async register(createUsersDto: UserDto): Promise<UserDto> {
+        return createUsersDto
+    }
 
-  async findAll(): Promise<number[]> {
-    return [1, 2, 3, 4, 5]
-  }
-
-  async update(userId: string): Promise<string> {
-    return 'update success'
-  }
+    async findAll(): Promise<number[]> {
+        return [1, 2, 3, 4, 5]
+    }
 }

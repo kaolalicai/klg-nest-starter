@@ -6,7 +6,7 @@
   "types": "src/index.ts",
   "scripts": {
     "lint": "gulp clean:bundle && eslint \"packages/**/*.ts\" --fix",
-    "format": "prettier --write \"packages/**/*.ts\"",
+    "format": "prettier --write \"packages/**/*.ts\" \"sample/**/*.ts\"",
     "clean": "gulp clean:bundle",
     "prebuild": "rm -rf node_modules/@kalengo",
     "build": "gulp build --dist ./node_modules/@kalengo",
