@@ -107,7 +107,9 @@ export class ApplicationModule {}
 
 KeycloakConnectModule 包装了官方的适配器 keycloak-nodejs-connect
 
-AuthGuard 负责校验用户的登陆状态，如果用户的 http 请求没有携带 token 或者 token 超时，该中间价会连接请求并返回 401 Unauthorized 
+AuthGuard 负责校验用户的登陆状态，如果用户的 http 请求没有携带 token 或者 token 超时，
+该中间件会拦截请求并返回 401 Unauthorized ，
+这个时候前端应该跳转到自定义的 login 页面
 
 默认是拦截了所有接口的(login)，如果你需要给其他接口加上白名单，请期待下一个版本实现。
 
@@ -151,6 +153,8 @@ export class UsersController {
 注意角色必须带上 'realm:' 这个固定前缀，
 表示是 realm 级别的角色，
 如果是 Client 级别的角色应该是 'client-id:roe' 这种格式
+
+如果用户没有对应权限，请求接口时会得到 406 Not Acceptable 错误
 
 RolesGuard 底层依赖于官方适配器的 keycloak.protect ，更多信息建议阅读：
 - [Nest 中间件](https://docs.nestjs.cn/7/middlewares)
