@@ -1,9 +1,9 @@
 import { DynamicModule, Module, Provider, Global, Inject } from '@nestjs/common'
 import { RedisService } from 'nestjs-redis'
 import { Redlock } from './Redlock'
-import { RedisModuleBuilder } from '../ioredis/RedisModuleBuilder'
-import { BufferOptions } from './RedlockInterface'
-import { RedlockService } from './RedlockService'
+import { RedisModuleBuilder } from '../ioredis/redis.module.builder'
+import { BufferOptions } from './redlock.interface'
+import { RedlockService } from './redlock.service'
 import {
   REDLOCK_MODULE_OPTIONS,
   MUTEX_LOCK,

@@ -1,7 +1,7 @@
 import { DynamicModule, Module } from '@nestjs/common'
 import * as mongoose from 'mongoose'
 import { TypegooseModule } from 'nestjs-typegoose'
-import { parseConfig } from './ConfigParse'
+import { parseConfig } from './config.parse'
 
 @Module({})
 export class TypegooseModuleBuilder {

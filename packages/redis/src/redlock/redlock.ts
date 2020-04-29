@@ -3,7 +3,7 @@ import * as _ from 'lodash'
 import * as Lock from 'redlock'
 import * as Redis from 'ioredis'
 import { logger } from '@kalengo/utils'
-import { LockOption } from './RedlockInterface'
+import { LockOption } from './redlock.interface'
 
 const { prefix } = config.redis
 

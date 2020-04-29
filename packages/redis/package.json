@@ -11,7 +11,6 @@
   "author": "nick",
   "license": "MIT",
   "dependencies": {
-    "@kalengo/utils": "^1.0.0-alpha.0",
     "@nestjs/common": "7.0.8",
     "nestjs-redis": "^1.2.7",
     "redlock": "^4.1.0"

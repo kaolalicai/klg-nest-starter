@@ -1,6 +1,6 @@
 import { DynamicModule, Module, Logger } from '@nestjs/common'
 import { RedisModule } from 'nestjs-redis'
-import { parseConfig } from '../ConfigParse'
+import { parseConfig } from '../config.parse'
 
 async function onClientReady(client) {
   client.on('error', (err) => {

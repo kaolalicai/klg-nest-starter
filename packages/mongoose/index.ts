@@ -1,3 +1,3 @@
-export * from './src/ObjectId'
-export * from './src/TypegooseModuleBuilder'
-export * from './src/TestDateBaseHelper'
+export * from './src/objectId'
+export * from './src/typegoose.module.builder'
+export * from './src/test.database.helper'
