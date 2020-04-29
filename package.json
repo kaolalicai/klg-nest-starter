@@ -69,6 +69,7 @@
     "@nestjs/swagger": "^4.5.1",
     "@typegoose/typegoose": "^6.4.0",
     "config": "^3.3.1",
+    "keycloak-connect": "^9.0.3",
     "klg-date": "^2.0.1",
     "mockjs": "^1.1.0",
     "mongoose": "^5.9.9",

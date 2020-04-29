@@ -8,34 +8,33 @@ import { KEYCLOAK_INSTANCE, Roles, Keycloak } from '@kalengo/keycloak'
 export class UsersController {
   logger = new Logger(UsersController.name)
 
-  constructor (
+  constructor(
     private readonly usersService: UsersService,
     @Inject(KEYCLOAK_INSTANCE)
     private readonly keycloak: Keycloak
-  ) {
-  }
+  ) {}
 
   @Get()
   @Roles('realm:admin')
-  async findAll (): Promise<number[]> {
+  async findAll(): Promise<number[]> {
     return this.usersService.findAll()
   }
 
   @Get('/hello')
-  async hello (): Promise<string> {
+  async hello(): Promise<string> {
     return 'Hello World!'
   }
 
   @Get('/info')
   @Roles('realm:user', 'realm:none')
-  async protect (@Req() req: Request): Promise<string> {
+  async protect(@Req() req: Request): Promise<string> {
     const userInfo = (req as any).user
     console.log('userInfo', userInfo)
     return 'protect info'
   }
 
   @Get('/login')
-  async login (): Promise<string | { token: string }> {
+  async login(): Promise<string | { token: string }> {
     const username = 'user'
     const password = 'password'
     try {

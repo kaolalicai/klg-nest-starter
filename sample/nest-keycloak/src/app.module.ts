@@ -1,7 +1,7 @@
-import {Module} from '@nestjs/common'
-import {APP_GUARD} from '@nestjs/core'
-import {UsersModule} from './users/users.module'
-import {KeycloakConnectModule, AuthGuard, RolesGuard} from '@kalengo/keycloak'
+import { Module } from '@nestjs/common'
+import { APP_GUARD } from '@nestjs/core'
+import { UsersModule } from './users/users.module'
+import { KeycloakConnectModule, AuthGuard, RolesGuard } from '@kalengo/keycloak'
 
 @Module({
   imports: [KeycloakConnectModule.forRoot({}), UsersModule],
@@ -16,5 +16,4 @@ import {KeycloakConnectModule, AuthGuard, RolesGuard} from '@kalengo/keycloak'
     }
   ]
 })
-export class ApplicationModule {
-}
+export class ApplicationModule {}

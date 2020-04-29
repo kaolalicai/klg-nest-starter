@@ -26,10 +26,16 @@ describe('AppController (e2e)', () => {
   })
 
   it('get user info is only for user role', () => {
-    return request.get('/users/info').set({ Authorization: `Bearer ${token}` }).expect(200)
+    return request
+      .get('/users/info')
+      .set({ Authorization: `Bearer ${token}` })
+      .expect(200)
   })
 
   it('get all user is not allowed', () => {
-    return request.get('/users/').set({ Authorization: `Bearer ${token}` }).expect(406)
+    return request
+      .get('/users/')
+      .set({ Authorization: `Bearer ${token}` })
+      .expect(406)
   })
 })
