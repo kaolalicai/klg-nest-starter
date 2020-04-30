@@ -1,9 +1,9 @@
 import 'reflect-metadata'
 import { Redlock } from '../redlock/Redlock'
 import * as _ from 'lodash'
-import { DecoratorLockOption } from '../redlock/RedlockInterface'
+import { DecoratorLockOption } from '../redlock/redlock.interface'
 import { Inject } from '@nestjs/common'
-import { RedlockService } from '../redlock/RedlockService'
+import { RedlockService } from '../redlock/redlock.service'
 
 const LockKeyMetaKey = Symbol('kalengo:LockKey')
 
@@ -124,5 +124,6 @@ const getLockKey = (target, propertyKey, ...args) => {
 			resourceKey = _.get(value, lockKeyMetaIndex[0].keyPath)
 		}
 	}
+	if(_.isEmpty(resourceKey)) throw new Error('锁的key为空，请在Lock注解参数中指定key的值或者使用LockKey装饰器')
 	return resourceKey
 }
