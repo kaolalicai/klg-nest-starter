@@ -5,12 +5,12 @@ module.exports = {
     connections: [
       {
         name: 'core',
-        url: 'mongodb://localhost:57017/core_test',
+        url: 'mongodb://localhost:27017/core_test',
         options: {}
       },
       {
         name: 'app',
-        url: 'mongodb://localhost:57017/app_test',
+        url: 'mongodb://localhost:27017/app_test',
         options: {}
       }
     ]

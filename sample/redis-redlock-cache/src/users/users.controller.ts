@@ -30,4 +30,9 @@ export class UsersController {
   async hello (): Promise<string> {
     return 'Hello World!'
   }
+
+  @Get('/decoratorMutex')
+  async decoratorMutex () {
+    return await this.usersService.decoratorMutex({list: ['list1'], name: 'deo'})
+  }
 }
