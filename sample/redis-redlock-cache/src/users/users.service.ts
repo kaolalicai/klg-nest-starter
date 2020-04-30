@@ -1,6 +1,6 @@
 import {Injectable, Logger, Inject} from '@nestjs/common'
 import {UserDto} from './users.dto'
-import {RedisService, RedlockService, BUFFER_LOCK, Redlock, MutexLock, LockKey} from '@kalengo/redis'
+import {RedisService, RedlockService, BUFFER_LOCK, Redlock, MutexLock, LockKey, BufferLock} from '@kalengo/redis'
 import * as assert from 'assert'
 import * as bluebird from 'bluebird'
 
@@ -50,8 +50,14 @@ export class UsersService {
     assert(value === v)
   }
 
-  @MutexLock()
+  @MutexLock({ttl: 1000000})
   async decoratorMutex (@LockKey('name') param: IDecoratorMutexParam) {
+    return await this.findAll()
+  }
+
+  @BufferLock()
+  async decoratorBuffer (@LockKey('name') param: IDecoratorMutexParam) {
+    await bluebird.delay(0.1)
     return await this.findAll()
   }
 }

@@ -34,9 +34,21 @@ describe('users-redis.e2e-spec', () => {
 
   it('decorator Mutex', async () => {
     const results = await Promise.all([
-      request.get('/users/decoratorMutex').expect(200).expect([ 1, 2, 3, 4, 5 ]),
-      request.get('/users/decoratorMutex').expect(500),
-      request.get('/users/decoratorMutex').expect(500)
+      request.get('/users/decorator/mutex').expect(200).expect([ 1, 2, 3, 4, 5 ]),
+      request.get('/users/decorator/mutex').expect(500),
+      request.get('/users/decorator/mutex').expect(500)
+    ])
+    let [res1, res2, res3] = results
+    console.log('res1', res1.body)
+    console.log('res2', res2.body)
+    console.log('res3', res3.body)
+  })
+
+  it('decorator buffer', async () => {
+    const results = await Promise.all([
+      request.get('/users/decorator/buffer').expect(200).expect([ 1, 2, 3, 4, 5 ]),
+      request.get('/users/decorator/buffer').expect(200).expect([ 1, 2, 3, 4, 5 ]),
+      request.get('/users/decorator/buffer').expect(200).expect([ 1, 2, 3, 4, 5 ])
     ])
     let [res1, res2, res3] = results
     console.log('res1', res1.body)

@@ -5,7 +5,7 @@ export interface LockOption {
 
 export type BufferOptions = LockOption
 
-export interface MutexLockOption {
+export interface DecoratorLockOption {
 	key?: string
 	ttl?: number
 }
