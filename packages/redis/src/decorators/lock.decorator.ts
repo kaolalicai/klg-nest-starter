@@ -48,7 +48,7 @@ export function MutexLock (param: string | DecoratorLockOption): any {
 
 		descriptor.value = async function (...args) {
 			const redlockService = this[injectServiceName]
-			if (!redlockService) throw new Error('请注入redlockService')
+			if (!redlockService) throw new Error('自动注入redlockService失败，请检查是否在全局注入RedlockService')
 			const redlock: Redlock = redlockService.getMutex()
 			resourceKey = resourceKey ? resourceKey : getLockKey(target, propertyKey, ...args)
 			const res = redlock.using(async () => {
@@ -84,7 +84,7 @@ export function BufferLock (param: string | DecoratorLockOption) {
 
 		descriptor.value = async function (...args) {
 			const redlockService = this[injectServiceName]
-			if (!redlockService) throw new Error('自动注入redlockService失败')
+			if (!redlockService) throw new Error('自动注入redlockService失败，请检查是否在全局注入RedlockService')
 			const redlock: Redlock = redlockService.getBuffer()
 			resourceKey = resourceKey ? resourceKey : getLockKey(target, propertyKey, ...args)
 			const res = redlock.using(async () => {
