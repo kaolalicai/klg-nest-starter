@@ -10,10 +10,13 @@ import {source} from '../config'
 function cleanOutput () {
   return src(
     [
-      `${source}/**/*.js`,
-      `${source}/**/*.d.ts`,
-      `${source}/**/*.js.map`,
-      `${source}/**/*.d.ts.map`
+      `${ source }/**/*.js`,
+      `${ source }/**/*.d.ts`,
+      `${ source }/**/*.js.map`,
+      `${ source }/**/*.d.ts.map`,
+      `${ source }/**/node_modules/`,
+      `${ source }/**/package-lock.json`,
+      `sample/**/package-lock.json`,
     ],
     {
       read: false
@@ -25,7 +28,7 @@ function cleanOutput () {
  * Cleans empty dirs
  */
 function cleanDirs (done: () => void) {
-  deleteEmpty.sync(`${source}/`)
+  deleteEmpty.sync(`${ source }/`)
   done()
 }
 
@@ -35,9 +38,8 @@ function cleanDirs (done: () => void) {
 function cleanTemplate () {
   // return del(`${ source }/**/*`, {force: true})
   return src('template/boilerplate', {read: false})
-    .pipe(clean({force: true, allowEmpty : true}))
+    .pipe(clean({force: true, allowEmpty: true}))
 }
-
 
 task('clean:output', cleanOutput)
 task('clean:dirs', cleanDirs)

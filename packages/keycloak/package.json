@@ -1,0 +1,17 @@
+{
+  "name": "@kalengo/keycloak",
+  "version": "1.0.0",
+  "description": "nest redis for kalengo",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "nick",
+  "license": "MIT",
+  "dependencies": {
+    "@nestjs/common": "7.0.8",
+    "keycloak-connect": "^9.0.3"
+  }
+}

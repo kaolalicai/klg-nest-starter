@@ -1,7 +1,3 @@
----
-sidebarDepth: 2
----
-
 Nest 的官方 demo 中提供了两套测试：
 
 - Unit Test

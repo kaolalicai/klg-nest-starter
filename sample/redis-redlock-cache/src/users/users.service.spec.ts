@@ -1,20 +1,20 @@
-import {getModelToken} from 'nestjs-typegoose'
-import {Test} from '@nestjs/testing'
-import {UsersController} from './users.controller'
-import {UsersService} from './users.service'
+import { getModelToken } from 'nestjs-typegoose'
+import { Test } from '@nestjs/testing'
+import { UsersController } from './users.controller'
+import { UsersService } from './users.service'
 
 describe('UsersService', () => {
   let usersService: UsersService
 
   beforeEach(async () => {
-
     const module = await Test.createTestingModule({
       controllers: [UsersController],
-      providers: [UsersService,
+      providers: [
+        UsersService,
         {
           provide: getModelToken('User'),
           useValue: {
-            find: () => ({a: 1})
+            find: () => ({ a: 1 })
           }
         },
         {
@@ -28,11 +28,10 @@ describe('UsersService', () => {
 
   describe('findAll', () => {
     it('should return an array of users', async () => {
-      const result = {a: 1}
+      const result = { a: 1 }
       // jest.spyOn(usersService, 'findAll').mockImplementation(async () => result)
       let res = await usersService.findAll()
       expect(res).toEqual(result)
     })
   })
-
 })

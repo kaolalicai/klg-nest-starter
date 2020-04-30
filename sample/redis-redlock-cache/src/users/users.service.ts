@@ -1,5 +1,5 @@
-import {Injectable, Logger, Inject} from '@nestjs/common'
-import {UserDto} from './users.dto'
+import { Injectable, Logger, Inject } from '@nestjs/common'
+import { UserDto } from './users.dto'
 import {RedisService, RedlockService, BUFFER_LOCK, Redlock, MutexLock, LockKey, BufferLock} from '@kalengo/redis'
 import * as assert from 'assert'
 import * as bluebird from 'bluebird'
@@ -11,7 +11,7 @@ interface IDecoratorMutexParam {
 
 @Injectable()
 export class UsersService {
-  constructor (
+  constructor(
     private readonly redisService: RedisService,
     private readonly redlockService: RedlockService,
     @Inject(BUFFER_LOCK)
@@ -20,28 +20,34 @@ export class UsersService {
     // blank
   }
 
-  async register (createUsersDto: UserDto) {
+  async register(createUsersDto: UserDto) {
     return 'success'
   }
 
-  async findAll () {
+  async findAll() {
     return [1, 2, 3, 4, 5]
   }
 
-  async mutex () {
-    return await this.redlockService.getMutex().using(async () => {
-      return await this.findAll()
-    }, {resource: 'key1', ttl: 10})
+  async mutex() {
+    return await this.redlockService.getMutex().using(
+      async () => {
+        return await this.findAll()
+      },
+      { resource: 'key1', ttl: 10 }
+    )
   }
 
-  async buffer () {
-    return await this.bufferLock.using(async () => {
-      await bluebird.delay(0.1)
-      return await this.findAll()
-    }, {resource: 'key2', ttl: 10})
+  async buffer() {
+    return await this.bufferLock.using(
+      async () => {
+        await bluebird.delay(0.1)
+        return await this.findAll()
+      },
+      { resource: 'key2', ttl: 10 }
+    )
   }
 
-  async getAndSet () {
+  async getAndSet() {
     const client = await this.redisService.getClient()
     let v = 'vvv'
     await client.setex('kk', 60, v)

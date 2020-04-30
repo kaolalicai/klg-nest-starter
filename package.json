@@ -6,7 +6,7 @@
   "types": "src/index.ts",
   "scripts": {
     "lint": "gulp clean:bundle && eslint \"packages/**/*.ts\" --fix",
-    "format": "prettier --write \"packages/**/*.ts\"",
+    "format": "prettier --write \"packages/**/*.ts\" \"sample/**/*.ts\"",
     "clean": "gulp clean:bundle",
     "prebuild": "rm -rf node_modules/@kalengo",
     "build": "gulp build --dist ./node_modules/@kalengo",
@@ -23,6 +23,12 @@
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run format",
+      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/kaolalicai/kalengo-nest-starter"
@@ -36,6 +42,8 @@
     "node": ">= 8.9.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
     "@types/bluebird": "^3.5.30",
     "@types/redlock": "^4.0.1",
     "@typescript-eslint/eslint-plugin": "^2.29.0",
@@ -49,6 +57,7 @@
     "gulp-clean": "^0.4.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-typescript": "^6.0.0-alpha.1",
+    "husky": "^4.2.5",
     "lerna": "^3.20.2",
     "prettier": "^2.0.5",
     "ts-node": "^8.8.2",
@@ -60,7 +69,8 @@
     "@nestjs/swagger": "^4.5.1",
     "@typegoose/typegoose": "^6.4.0",
     "config": "^3.3.1",
-    "klg-date": "^1.1.7",
+    "keycloak-connect": "^9.0.3",
+    "klg-date": "^2.0.1",
     "mockjs": "^1.1.0",
     "mongoose": "^5.9.9",
     "nestjs-redis": "^1.2.7",

@@ -1,6 +1,6 @@
-import {IsNotEmpty} from 'class-validator'
-import {ApiProperty} from '@nestjs/swagger'
-import {BaseResponse} from '@kalengo/web'
+import { IsNotEmpty } from 'class-validator'
+import { ApiProperty } from '@nestjs/swagger'
+import { BaseResponse } from '@kalengo/web'
 
 export class UserDto {
   @IsNotEmpty()
@@ -21,16 +21,16 @@ export class AccountDto {
 }
 
 export class RegisterRes extends BaseResponse {
-  @ApiProperty({type: UserDto})
+  @ApiProperty({ type: UserDto })
   readonly data!: UserDto
 }
 
 export class FindAccountRes extends BaseResponse {
-  @ApiProperty({type: AccountDto})
+  @ApiProperty({ type: AccountDto })
   readonly data!: AccountDto
 }
 
 export class FindUsersRes extends BaseResponse {
-  @ApiProperty({type: [AccountDto]})
+  @ApiProperty({ type: [AccountDto] })
   readonly data!: AccountDto[]
 }

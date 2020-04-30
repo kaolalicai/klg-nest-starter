@@ -1,6 +1,6 @@
 {
   "name": "@kalengo/mongoose",
-  "version": "0.1.5",
+  "version": "1.0.0",
   "description": "aka mongoose",
   "scripts": {
     "test": "npm run test"
@@ -11,7 +11,6 @@
   "author": "nick",
   "license": "MIT",
   "dependencies": {
-    "@kalengo/utils": "^0.1.5",
     "@nestjs/common": "7.0.8",
     "@typegoose/typegoose": "^6.4.0",
     "config": "^3.3.1",

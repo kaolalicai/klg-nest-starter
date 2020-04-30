@@ -16,10 +16,17 @@
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json --runInBand"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run format",
+      "pre-push": "npm run lint",
+      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
+    }
+  },
   "dependencies": {
-    "@kalengo/mongoose": "^0.1.5",
+    "@kalengo/mongoose": "^1.0.0",
     "@kalengo/utils": "^0.1.5",
-    "@kalengo/web": "^0.1.5",
+    "@kalengo/web": "^1.0.0",
     "@nestjs/common": "7.0.8",
     "@nestjs/core": "7.0.8",
     "@nestjs/platform-express": "7.0.8",
@@ -37,6 +44,8 @@
     "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
     "@nestjs/cli": "^7.1.2",
     "@nestjs/schematics": "^7.0.0",
     "@nestjs/testing": "^7.0.7",
@@ -53,6 +62,7 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
+    "husky": "^4.2.5",
     "jest": "^25.3.0",
     "mockjs": "^1.1.0",
     "prettier": "^2.0.5",

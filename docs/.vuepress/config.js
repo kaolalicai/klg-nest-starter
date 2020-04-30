@@ -3,23 +3,46 @@ module.exports = {
   base: '/nest_doc/',
   description: 'Just playing around',
   themeConfig: {
-    displayAllHeaders: true,
+    // displayAllHeaders: true,
     nav: [
       {text: '首页', link: '/'},
       {text: '快速开始', link: '/quickstart'},
       {text: 'Github', link: 'https://github.com/kaolalicai/klg-nest-starter'},
     ],
     sidebar: [
-      '/',
-      ['/quickstart', '快速开始'],
-      ['/web', 'Web生命周期'],
-      ['/test', '测试'],
-      ['/mongoose', 'Mongodb'],
-      ['/code-style', '代码风格'],
-      ['/extend', '其他技术'],
+      {
+        title: '从 Web 开始',   // 必要的
+        path: '/quickstart',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
+        collapsable: false, // 可选的, 默认值是 true,
+        sidebarDepth: 1,    // 可选的, 默认值是 1
+        children: [
+          ['/quickstart', '快速开始'],
+          ['/web', 'Web生命周期'],
+          ['/test', '测试']
+        ]
+      },
+      {
+        title: 'Database',
+        path: '/database/mongoose',
+        collapsable: false,
+        children: [
+          ['/database/mongoose', 'Mongodb']
+        ]
+      },
       ['/config', '应用配置'],
-      ['/klg', '工具集'],
-      ['/contribut', '如何贡献'],
+      {
+        title: '其他技术',
+        path: '/extend/redis',
+        collapsable: false,
+        children: [
+          ['/extend/redis', 'Redis'],
+          ['/extend/rabbitmq', 'RabbitMQ'],
+          ['/extend/keycloak', 'Keycloak SSO 认证和授权']
+        ]
+      },
+      ['/code-style', '代码风格'],
+      ['/utils', '常用工具'],
+      ['/contribut', '如何贡献']
     ]
   }
 }

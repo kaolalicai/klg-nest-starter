@@ -1,8 +1,8 @@
 import * as supertest from 'supertest'
-import {ApplicationModule} from '../src/app.module'
-import {Test} from '@nestjs/testing'
+import { ApplicationModule } from '../src/app.module'
+import { Test } from '@nestjs/testing'
 
-export async function bootstrap () {
+export async function bootstrap() {
   // init nestjs
   const testModule = await Test.createTestingModule({
     imports: [ApplicationModule]
@@ -10,5 +10,5 @@ export async function bootstrap () {
   const app = testModule.createNestApplication()
   await app.init()
   const request = supertest(app.getHttpServer())
-  return {app, request, testModule}
+  return { app, request, testModule }
 }

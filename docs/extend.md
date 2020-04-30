@@ -1,6 +1,3 @@
----
-sidebarDepth: 2
----
 
 ## Redis
 我们将会对三种基于 Redis 的应用场景提供集成方案
@@ -8,7 +5,7 @@ sidebarDepth: 2
 - redlock 分布式锁
 - cache 分布式缓存
 
-完整的使用示例项目见本项目 sample/redis-redlock-cache
+[完整项目示例](https://github.com/kaolalicai/klg-nest-starter/tree/master/sample/redis-redlock-cache) 
 
 ### Redis Store
 这里直接使用开源第三方 [nestjs-redis](https://github.com/kyknow/nestjs-redis) 的实现即可，
@@ -405,8 +402,13 @@ Authentication Flow Overrides 下面
 
 这里写死了 username， password，实际用的时候改成前端传参即可
 通过 API 授权后，会获得一个 grant，里面保存了 token，再把这个 grant store 到 session 中即可。
-这样，前端只要先请求这个登陆接口，返回值中能获得一个 access_token
-后续请求后端接口的时候都带上这个 access_token，具体做法：
+前端只要先请求这个接口即可完成登陆。
+
+如果前端是浏览器，那么 token 将会被写入 cookie 中，前端不需要额外处理。
+
+如果前端是 Native APP 在返回值中能获得一个 access_token，后续请求后端接口的时候都带上这个 access_token 即可。
+
+具体做法：
 
 > headers: { Authorization: `Bearer ${access_token}` }
 

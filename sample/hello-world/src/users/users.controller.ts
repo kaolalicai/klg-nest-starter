@@ -17,6 +17,7 @@ import {
   ApiResponse
 } from '@nestjs/swagger'
 import { UserDto, FindUsersRes, RegisterRes, FindAccountRes } from './users.dto'
+import { DateUtil, logger } from '@kalengo/utils'
 
 @Controller('users')
 export class UsersController {
@@ -38,6 +39,12 @@ export class UsersController {
   })
   async findAll(): Promise<IUserModel[]> {
     return this.usersService.findAll()
+  }
+
+  @Get('/date')
+  async date(): Promise<string> {
+    logger.info('get date')
+    return DateUtil.format()
   }
 
   @Get('/hello')

@@ -36,9 +36,9 @@ npm run test
 npm run build
 ```
 
-然后执行集成测试(TODO)
+然后执行集成测试, 这个命令会进入每一个 sample 并执行 `npm run test:e2e`
 ```bash
-npm run test:sample
+bash run-tests
 ```
 
 ## 发布 packages
@@ -49,6 +49,13 @@ npm run publish
 ```
 
 选择本次发布对应的版本，lerna 会帮你搞定发布流程。
+
+## 验证 packages
+为了验证 packages 是否可用，我们可以执行以下命令测试
+
+先执行 `bash upgrade-packages.sh` 更新 sample 下的 @Kalengo 相关的包
+
+再执行 `bash run-tests` 进行验证测试
 
 ## 发布脚手架模板
 我们使用 klg-init 来生成脚手架，该脚手架需要一个模板。
@@ -75,9 +82,10 @@ npm run test
 
 注意：测试需要连接 mongodb, 修改 template/config/test.js 里的DB配置即可
 
-测试通过就可以发布模板，执行 template/package.json 里的命令
+测试通过就可以发布模板到 npm, 在 template 目录中执行
+
 ```bash
-npm run publish
+npm  publish --registry https://registry.npmjs.org
 ```
 
 项目模板将会以 npm 模块的形式发布出去, 模块名是 klg-nest-starter ，klg-init 会自动检测到最新模板。

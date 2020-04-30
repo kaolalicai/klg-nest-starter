@@ -1,4 +1,4 @@
-import { request, genFixtures } from '../test-helper'
+import { request, genFixtures, prefix } from '../test-helper'
 import { UserTemplate } from '../model-mock-template'
 
 describe('AppController (e2e) find with fixtures ', () => {
@@ -7,6 +7,6 @@ describe('AppController (e2e) find with fixtures ', () => {
   })
 
   it('find all', () => {
-    request.get('/users').expect(200)
+    request.get(prefix + '/users').expect(200)
   })
 })
