@@ -223,3 +223,5 @@ lock key 可以直接指定一个字符串值
 `@LockKey()name: string`
 
 ## Cache(TODO)
+Cache 的设计和 Redlock 的设计差不多，同样支持 using 方法包装要缓存的 function，
+也支持使用注解对 function 进行包装
