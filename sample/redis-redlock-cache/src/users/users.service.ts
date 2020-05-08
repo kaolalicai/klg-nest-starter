@@ -19,7 +19,7 @@ interface IDecoratorMutexParam {
 
 @Injectable()
 export class UsersService {
-  constructor (
+  constructor(
     private readonly redisService: RedisService,
     private readonly redlockService: RedlockService,
     @Inject(BUFFER_LOCK)
@@ -28,15 +28,15 @@ export class UsersService {
     // blank
   }
 
-  async register (createUsersDto: UserDto) {
+  async register(createUsersDto: UserDto) {
     return 'success'
   }
 
-  async findAll () {
+  async findAll() {
     return [1, 2, 3, 4, 5]
   }
 
-  async mutex () {
+  async mutex() {
     return await this.redlockService.getMutex().using(
       async () => {
         return await this.findAll()
@@ -45,7 +45,7 @@ export class UsersService {
     )
   }
 
-  async buffer () {
+  async buffer() {
     return await this.bufferLock.using(
       async () => {
         await bluebird.delay(0.1)
@@ -55,7 +55,7 @@ export class UsersService {
     )
   }
 
-  async getAndSet () {
+  async getAndSet() {
     const client = await this.redisService.getClient()
     let v = 'vvv'
     await client.setex('kk', 60, v)
@@ -65,42 +65,42 @@ export class UsersService {
   }
 
   @MutexLock({ ttl: 1000 })
-  async decoratorMutex (@LockKey('name') param: IDecoratorMutexParam) {
+  async decoratorMutex(@LockKey('name') param: IDecoratorMutexParam) {
     return await this.findAll()
   }
 
   @MutexLock({ ttl: 1000000 })
-  async decoratorMutexByKey (@LockKey() key: string) {
+  async decoratorMutexByKey(@LockKey() key: string) {
     return await this.findAll()
   }
 
-  @MutexLock({ ttl: 1000000, key: 'DecoratorOptionKey'})
-  async decoratorMutexByDecoratorOptionKey () {
+  @MutexLock({ ttl: 1000000, key: 'DecoratorOptionKey' })
+  async decoratorMutexByDecoratorOptionKey() {
     return await this.findAll()
   }
 
   @MutexLock('DecoratorKey')
-	async decoratorMutexByDecoratorKey () {
+  async decoratorMutexByDecoratorKey() {
     return await this.findAll()
   }
 
   @BufferLock({ ttl: 1000 })
-	async decoratorBuffer (@LockKey('name') param: IDecoratorMutexParam) {
+  async decoratorBuffer(@LockKey('name') param: IDecoratorMutexParam) {
     return await this.findAll()
   }
 
   @BufferLock({ ttl: 1000000 })
-	async decoratorBufferByKey (@LockKey() key: string) {
+  async decoratorBufferByKey(@LockKey() key: string) {
     return await this.findAll()
   }
 
-  @BufferLock({ ttl: 1000000, key: 'DecoratorOptionKey'})
-	async decoratorBufferByDecoratorOptionKey () {
+  @BufferLock({ ttl: 1000000, key: 'DecoratorOptionKey' })
+  async decoratorBufferByDecoratorOptionKey() {
     return await this.findAll()
   }
 
   @BufferLock('DecoratorKey')
-	async decoratorBufferByDecoratorKey () {
+  async decoratorBufferByDecoratorKey() {
     return await this.findAll()
   }
 }
