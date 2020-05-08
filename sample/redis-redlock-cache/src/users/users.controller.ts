@@ -31,12 +31,18 @@ export class UsersController {
   }
 
   @Get('/decorator/mutex')
-  async decoratorMutex () {
-    return await this.usersService.decoratorMutex({list: ['list1'], name: 'deo'})
+  async decoratorMutex() {
+    return await this.usersService.decoratorMutex({
+      list: ['list1'],
+      name: 'deo'
+    })
   }
 
   @Get('/decorator/buffer')
-  async decoratorBuffer () {
-    return await this.usersService.decoratorBuffer({list: ['list1'], name: 'deo'})
+  async decoratorBuffer() {
+    return await this.usersService.decoratorBuffer({
+      list: ['list1'],
+      name: 'deo'
+    })
   }
 }
