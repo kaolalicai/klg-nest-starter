@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0wg1wkt" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.9.1">
+  <bpmn:process id="recharge-process" name="充值" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1nfc1aw</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1nfc1aw" sourceRef="StartEvent_1" targetRef="Activity_pay" />
+    <bpmn:serviceTask id="Activity_pay" name="请求支付系统">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="pay_service" retries="5" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1nfc1aw</bpmn:incoming>
+      <bpmn:outgoing>Flow_1yt0668</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1yt0668" sourceRef="Activity_pay" targetRef="Gateway_04x0q15" />
+    <bpmn:eventBasedGateway id="Gateway_04x0q15" name="等待回调">
+      <bpmn:incoming>Flow_1yt0668</bpmn:incoming>
+      <bpmn:outgoing>Flow_196vr8w</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0tr92bj</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:intermediateCatchEvent id="Event_1nx4mm9" name="支付成功">
+      <bpmn:incoming>Flow_196vr8w</bpmn:incoming>
+      <bpmn:outgoing>Flow_1364r1g</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1vbd2z3" messageRef="Message_106nc47" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_196vr8w" sourceRef="Gateway_04x0q15" targetRef="Event_1nx4mm9" />
+    <bpmn:intermediateCatchEvent id="Event_16dp0ps" name="支付失败">
+      <bpmn:incoming>Flow_0tr92bj</bpmn:incoming>
+      <bpmn:outgoing>Flow_0a4ncac</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1jwkpt2" messageRef="Message_0opi1ky" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_0tr92bj" sourceRef="Gateway_04x0q15" targetRef="Event_16dp0ps" />
+    <bpmn:sequenceFlow id="Flow_1364r1g" sourceRef="Event_1nx4mm9" targetRef="Activity_account" />
+    <bpmn:serviceTask id="Activity_account" name="成功 余额+">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="recharge_success_service" retries="5" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1364r1g</bpmn:incoming>
+      <bpmn:outgoing>Flow_0pti47t</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_13gmbeo" name="充值失败">
+      <bpmn:incoming>Flow_0kwutrq</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0a4ncac" sourceRef="Event_16dp0ps" targetRef="Activity_1fn3ido" />
+    <bpmn:endEvent id="Event_1fjafds" name="充值成功">
+      <bpmn:incoming>Flow_0pti47t</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0pti47t" sourceRef="Activity_account" targetRef="Event_1fjafds" />
+    <bpmn:sequenceFlow id="Flow_0kwutrq" sourceRef="Activity_1fn3ido" targetRef="Event_13gmbeo" />
+    <bpmn:serviceTask id="Activity_1fn3ido" name="失败">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="recharge_fail_service" retries="5" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0a4ncac</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kwutrq</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmn:message id="Message_106nc47" name="pay_success">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="orderId" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmn:message id="Message_0opi1ky" name="pay_fail">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="orderId" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="recharge-process">
+      <bpmndi:BPMNEdge id="Flow_1nfc1aw_di" bpmnElement="Flow_1nfc1aw">
+        <di:waypoint x="215" y="177" />
+        <di:waypoint x="270" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1yt0668_di" bpmnElement="Flow_1yt0668">
+        <di:waypoint x="370" y="177" />
+        <di:waypoint x="445" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_196vr8w_di" bpmnElement="Flow_196vr8w">
+        <di:waypoint x="495" y="177" />
+        <di:waypoint x="582" y="177" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="669" y="159" width="59" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0tr92bj_di" bpmnElement="Flow_0tr92bj">
+        <di:waypoint x="470" y="202" />
+        <di:waypoint x="470" y="290" />
+        <di:waypoint x="582" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1364r1g_di" bpmnElement="Flow_1364r1g">
+        <di:waypoint x="618" y="177" />
+        <di:waypoint x="710" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0a4ncac_di" bpmnElement="Flow_0a4ncac">
+        <di:waypoint x="618" y="290" />
+        <di:waypoint x="710" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0pti47t_di" bpmnElement="Flow_0pti47t">
+        <di:waypoint x="810" y="177" />
+        <di:waypoint x="902" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kwutrq_di" bpmnElement="Flow_0kwutrq">
+        <di:waypoint x="810" y="290" />
+        <di:waypoint x="902" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="159" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0lnc6yk_di" bpmnElement="Activity_pay">
+        <dc:Bounds x="270" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0axnhnu_di" bpmnElement="Gateway_04x0q15">
+        <dc:Bounds x="445" y="152" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="448" y="122" width="44" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1nx4mm9_di" bpmnElement="Event_1nx4mm9">
+        <dc:Bounds x="582" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="578" y="202" width="44" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_16dp0ps_di" bpmnElement="Event_16dp0ps">
+        <dc:Bounds x="582" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="578" y="315" width="44" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0fd0lgt_di" bpmnElement="Activity_account">
+        <dc:Bounds x="710" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_13gmbeo_di" bpmnElement="Event_13gmbeo">
+        <dc:Bounds x="902" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="898" y="315" width="44" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1fjafds_di" bpmnElement="Event_1fjafds">
+        <dc:Bounds x="902" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="898" y="202" width="44" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_009cs8d_di" bpmnElement="Activity_1fn3ido">
+        <dc:Bounds x="710" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
