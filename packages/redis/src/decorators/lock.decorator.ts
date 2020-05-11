@@ -35,6 +35,65 @@ export const LockKey = (keyPath?: string): ParameterDecorator => {
   }
 }
 
+function lockWrap(
+  lockType: string,
+  lockParam: { resourceKey: string; ttl: number },
+  originalMethod,
+  serviceName: string,
+  lockKeyMetaIndex: Array<ILockKeyMetaData>
+) {
+  let { resourceKey, ttl } = lockParam
+  return async function (this: any, ...args) {
+    const redlockService: RedlockService = this[serviceName]
+    if (!redlockService)
+      throw new Error(
+        '自动注入redlockService失败，请检查是否在全局注入RedlockService'
+      )
+    resourceKey = resourceKey
+      ? resourceKey
+      : getLockKey(lockKeyMetaIndex, ...args)
+
+    const redlock: Redlock =
+      lockType === 'mutex'
+        ? redlockService.getMutex()
+        : redlockService.getBuffer()
+    const res = redlock.using(
+      async () => {
+        return originalMethod.apply(this, args)
+      },
+      { resource: resourceKey, ttl }
+    )
+    return res
+  }
+}
+
+function lockDecoratorBuilder(
+  param: string | DecoratorLockOption,
+  type: string
+) {
+  return (
+    target: Object,
+    propertyKey: string | symbol,
+    descriptor: PropertyDescriptor
+  ) => {
+    let serviceName = 'redlockService'
+    Inject(RedlockService)(target, serviceName)
+    const lockKeyMetaIndex: Array<ILockKeyMetaData> = Reflect.getOwnMetadata(
+      LockKeyMetaKey,
+      target,
+      propertyKey
+    )
+    descriptor.value = lockWrap(
+      type,
+      parseParam(param),
+      descriptor.value,
+      serviceName,
+      lockKeyMetaIndex
+    )
+    return descriptor
+  }
+}
+
 /**
  * 排他锁
  * @param key 指定该锁的key值
@@ -50,38 +109,7 @@ export function MutexLock(key?: string): any
 export function MutexLock(option?: DecoratorLockOption): any
 
 export function MutexLock(param: string | DecoratorLockOption): any {
-  const injectRedlockService = Inject(RedlockService)
-  const injectServiceName = 'redlockService'
-
-  return (
-    target: Object,
-    propertyKey: string | symbol,
-    descriptor: PropertyDescriptor
-  ) => {
-    injectRedlockService(target, injectServiceName)
-    let { resourceKey, ttl } = parseParam(param)
-    const originalMethod = descriptor.value
-
-    descriptor.value = async function (...args) {
-      const redlockService: RedlockService = this[injectServiceName]
-      if (!redlockService)
-        throw new Error(
-          '自动注入redlockService失败，请检查是否在全局注入RedlockService'
-        )
-      const redlock: Redlock = redlockService.getMutex()
-      resourceKey = resourceKey
-        ? resourceKey
-        : getLockKey(target, propertyKey, ...args)
-      const res = redlock.using(
-        async () => {
-          return originalMethod.apply(this, args)
-        },
-        { resource: resourceKey, ttl }
-      )
-      return res
-    }
-    return descriptor
-  }
+  return lockDecoratorBuilder(param, 'mutex')
 }
 
 /**
@@ -99,38 +127,7 @@ export function BufferLock(key?: string): any
 export function BufferLock(option?: DecoratorLockOption): any
 
 export function BufferLock(param: string | DecoratorLockOption) {
-  const injectRedlockService = Inject(RedlockService)
-  const injectServiceName = 'redlockService'
-
-  return (
-    target: Object,
-    propertyKey: string | symbol,
-    descriptor: PropertyDescriptor
-  ) => {
-    injectRedlockService(target, injectServiceName)
-    let { resourceKey, ttl } = parseParam(param)
-    const originalMethod = descriptor.value
-
-    descriptor.value = async function (...args) {
-      const redlockService: RedlockService = this[injectServiceName]
-      if (!redlockService)
-        throw new Error(
-          '自动注入redlockService失败，请检查是否在全局注入RedlockService'
-        )
-      const redlock: Redlock = redlockService.getBuffer()
-      resourceKey = resourceKey
-        ? resourceKey
-        : getLockKey(target, propertyKey, ...args)
-      const res = redlock.using(
-        async () => {
-          return originalMethod.apply(this, args)
-        },
-        { resource: resourceKey, ttl }
-      )
-      return res
-    }
-    return descriptor
-  }
+  return lockDecoratorBuilder(param, 'buffer')
 }
 
 function parseParam(param: string | DecoratorLockOption) {
@@ -145,13 +142,8 @@ function parseParam(param: string | DecoratorLockOption) {
   return { resourceKey, ttl }
 }
 
-const getLockKey = (target, propertyKey, ...args) => {
+const getLockKey = (lockKeyMetaIndex: Array<ILockKeyMetaData>, ...args) => {
   let resourceKey = ''
-  const lockKeyMetaIndex: Array<ILockKeyMetaData> = Reflect.getOwnMetadata(
-    LockKeyMetaKey,
-    target,
-    propertyKey
-  )
   if (lockKeyMetaIndex) {
     if (lockKeyMetaIndex.length > 1)
       throw new Error('一个函数内只能有一个LockKey注解')
