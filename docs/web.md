@@ -113,6 +113,8 @@ async function bootstrap () {
 
 ```
 
+如果你有更复杂的日志需求，例如 log 存储分割等问题，请查阅本脚手架的[日志说明文档](https://kaolalicai.github.io/nest_doc/extend/logger.html)
+
 ## Response Format
 实际业务中，我们需要统一接口的返回值，Nest 默认不提供此类中间件，我们可以自己实现一个，如何编写中间件，请看 [Nest文档](https://docs.nestjs.cn/7/middlewares)
 
@@ -143,20 +145,93 @@ export class TransformInterceptor<T> implements NestInterceptor<T, Response<T>> 
 }
 ```
 
-中间件写好了之后，在 main.ts 中挂载即可
-
+中间件写好了之后，在 app.module.ts 中全局挂载即可
+> src/app.module.ts
 ```ts
-app.useGlobalInterceptors(new TransformInterceptor())
+import { Module } from '@nestjs/common'
+import { UsersModule } from './users/users.module'
+import { APP_INTERCEPTOR } from '@nestjs/core'
+import { TransformInterceptor } from '@kalengo/web'
+
+@Module({
+  imports: [UsersModule],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TransformInterceptor
+    }
+  ]
+})
+export class ApplicationModule {}
+
 ```
 
 **注意** 此类通用的中间件，我们会放入 @klg/web 包中
 
 ## 统一的异常处理
 
-详细的描述见 [Nest文档](https://docs.nestjs.cn/7/exceptionfilters)
-具体的落地实现在 @klg/web 包
+在 AppModule 注册全局的异常拦截器
 
-TODO:这里有个小BUG，如果把这个异常处理放入 npm 中，异常拦截将会失效，暂时未解决此问题
+```ts
+import { Module } from '@nestjs/common'
+import { APP_FILTER } from '@nestjs/core'
+import { HttpExceptionFilter } from '@kalengo/web'
+
+@Module({
+  imports: [UsersModule],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter
+    }
+  ]
+})
+export class ApplicationModule {}
+```
+
+注意这种写法是和下面的 useGlobalFilters 效果一致的，不过 useClass 方式可以注入其他实例。
+
+```ts
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.useGlobalFilters(new HttpExceptionFilter());
+  await app.listen(3000);
+}
+bootstrap();
+```
+
+HttpExceptionFilter 默认拦截所有异常，并返回如下结构的 json 内容
+
+```ts
+{
+"message": "Business Error",
+"code": 1,
+"url": "/api/v1/xxx/xxx"
+}
+```
+
+配置好了拦截器，我们测试一下异常的情况，在 Controller 中抛出异常
+
+```ts
+import { Controller, Get } from '@nestjs/common'
+import { BusinessException } from '@kalengo/web'
+
+@Controller('users')
+export class UsersController {
+
+  @Get('/err')
+  async err(): Promise<string> {
+    throw new BusinessException()
+  }
+}
+
+```
+
+`@kalengo/web` 为大家提供了一个 BusinessException 对象，实际上是继承与 Nest 的 HttpException, 这里抛出的异常将会被我们配置的拦截器拦截并处理。
+
+我们可以根据业务需要编写更多的自定义异常。
+
+更多详细内容请查阅 [Nest文档](https://docs.nestjs.cn/7/exceptionfilters)
 
 ## 接口文档 Swagger
 
