@@ -37,7 +37,7 @@ export class UsersController {
   @Get('/date')
   async date(): Promise<string> {
     logger.info('get date')
-    return DateUtil.format()
+    return DateUtil.format(new Date())
   }
 
   @Get('/hello')

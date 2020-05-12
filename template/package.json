@@ -1,6 +1,6 @@
 {
   "name": "klg-nest-starter",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "klg-init 的模板",
   "main": "index.js",
   "directories": {
@@ -11,7 +11,7 @@
     "clean": "rimraf temp boilerplate/.idea boilerplate/node_modules",
     "build": "npm run clean && npx klg-init temp --force --silent --template=./",
     "pretest": "npm run build && npm run install-deps",
-    "test": "cd temp && npm test",
+    "test": "cd temp && npm run test && npm run test:e2e",
     "install-deps": "cd temp && npm i --registry=https://registry.npm.taobao.org"
   },
   "repository": {
