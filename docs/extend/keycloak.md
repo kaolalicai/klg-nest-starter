@@ -79,6 +79,8 @@ module.exports = {
 
 **注意**：要把 `verify-token-audience` 改为 false (我也不知道为什么)
 
+
+## 全局引入
 初始化 Keycloak, 在 APP Module 中全局引入我们写好的包
 
 > src/app.module.ts
@@ -112,6 +114,20 @@ AuthGuard 负责校验用户的登陆状态，如果用户的 http 请求没有�
 这个时候前端应该跳转到自定义的 login 页面
 
 默认是拦截了所有接口的(login)，如果你需要给其他接口加上白名单，请期待下一个版本实现。
+
+## 按需引入
+全局引入 AuthGuard 会给 E2E 测试带来麻烦，因为 Nest 并不支持覆盖上述写法的全局引入，这样测试就会被授权问题卡住。
+
+为了解决测试问题，可以考虑在 Controller 层按需引入 AuthGuard
+
+```ts
+@UseGuards(RolesGuard)
+@UseGuards(AuthGuard)
+export class UsersController {
+}
+```
+**注意**：因为 RolesGuard 依赖 AuthGuard 的 token，所以 AuthGuard 必须写在 RolesGuard 下面，顺序不能乱
+
 
 ## 授权
 
@@ -220,6 +236,97 @@ Keycloak 管理后台支持定义各种资源和权限，如果要实现管理�
 ## 使用 Keycloak 自带的登陆页面(TODO)
 Keycloak 支持用户初始化后首次登陆修改密码，验证邮箱等操作，
 这样自定义登陆接口就不够用了，最好是使用 Keycloak 自带的登陆页面。
+
+## 测试
+这里测试有两种方式，连接 Keycloak 和 不 Mock Keycloak，分别介绍一下。
+
+连接 Keycloak 测试
+
+> test/main.ts
+```ts
+export async function bootstrapWithAuth() {
+  // init nestjs
+  const testModule = await Test.createTestingModule({
+    imports: [ApplicationModule]
+  }).compile()
+  const app = testModule.createNestApplication()
+  appSettings(app)
+  await app.init()
+  const request = supertest(app.getHttpServer())
+  return { app, request, testModule }
+}
+```
+不对 AuthGuard 做 mock 处理，在测试文件中引入
+
+> test/users/users-auth.e2e-spec.ts
+```ts
+import { bootstrapWithAuth } from '../main'
+import * as supertest from 'supertest'
+
+describe('users-auth.e2e-spec.ts', () => {
+  let request: supertest.SuperTest<supertest.Test>
+
+  beforeAll(async function () {
+    const res = await bootstrapWithAuth()
+    request = res.request
+  })
+
+  it('not login get 401 ', () => {
+    return request.get('/users/hello').expect(401)
+  })
+})
+
+```
+这样测试的时候就会请求 Keycloak 做权限验证。
+
+- - -
+Mock Keycloak 测试
+
+
+> test/main.ts
+```ts
+export async function bootstrapWithAuth() {
+  // init nestjs
+  const testModule = await Test.createTestingModule({
+    imports: [ApplicationModule]
+  })
+    .overrideGuard(AuthGuard)
+    .useValue({ canActivate: () => true })
+    .overrideGuard(RolesGuard)
+    .useValue({ canActivate: () => true })
+    .compile()
+  const app = testModule.createNestApplication()
+  appSettings(app)
+  await app.init()
+  const request = supertest(app.getHttpServer())
+  return { app, request, testModule }
+}
+```
+AuthGuard 和 RolesGuard 都执行了 overrideGuard，默认打开所有权限。
+
+**再次强调，overrideGuard 不支持全局引入的 AuthGuard，你需要把 AuthGuard 在 Controller 层引入 overrideGuard 才有效，具体做法见上文**
+
+> test/users/users-mock-auth.e2e-spec.ts
+```ts
+import { request } from '../test-helper'
+
+describe('users-mock-auth.e2e-spec.ts', () => {
+  it('not login is ok ', () => {
+    return request.get('/users/hello').expect(200)
+  })
+
+  it('get user is ok', () => {
+    return request.get('/users/info').expect(200)
+  })
+
+  it('get all user is ok', () => {
+    return request.get('/users/').expect(200)
+  })
+})
+
+
+```
+之后的测试就畅通无阻了
 
 ## 总结
 就这样，引入一个包，设置注解后就可以轻松实现角色访问控制了。

@@ -10,7 +10,7 @@
     "start:dev": "NODE_ENV=dev nest start --watch",
     "start": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"config/**/*\"",
     "pretest:e2e": "npm run lint",
     "test": "jest",
     "test:cov": "jest --coverage",

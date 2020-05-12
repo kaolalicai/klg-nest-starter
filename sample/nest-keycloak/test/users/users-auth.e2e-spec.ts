@@ -1,6 +1,14 @@
-import { request } from '../test-helper'
+import { bootstrapWithAuth } from '../main'
+import * as supertest from 'supertest'
 
-describe('AppController (e2e)', () => {
+describe('users-auth.e2e-spec.ts', () => {
+  let request: supertest.SuperTest<supertest.Test>
+
+  beforeAll(async function () {
+    const res = await bootstrapWithAuth()
+    request = res.request
+  })
+
   it('not login get 401 ', () => {
     return request.get('/users/hello').expect(401)
   })
@@ -8,7 +16,7 @@ describe('AppController (e2e)', () => {
   let token: string
   it('login get token', async () => {
     const { body } = await request.get('/users/login').expect(200)
-    expect(body.data.token).not.toBeNull()
+    expect(body.data.token).not.toBeUndefined()
     token = body.data.token
     console.log('token', token)
   })

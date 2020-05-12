@@ -1,10 +1,18 @@
-import { Controller, Get, Req, Inject, Logger } from '@nestjs/common'
+import { Controller, Get, Req, Inject, Logger, UseGuards } from '@nestjs/common'
 import * as _ from 'lodash'
 import { Request } from 'express'
 import { UsersService } from './users.service'
-import { KEYCLOAK_INSTANCE, Roles, Keycloak } from '@kalengo/keycloak'
+import {
+  KEYCLOAK_INSTANCE,
+  Roles,
+  Keycloak,
+  AuthGuard,
+  RolesGuard
+} from '@kalengo/keycloak'
 
 @Controller('users')
+@UseGuards(RolesGuard)
+@UseGuards(AuthGuard)
 export class UsersController {
   logger = new Logger(UsersController.name)
 

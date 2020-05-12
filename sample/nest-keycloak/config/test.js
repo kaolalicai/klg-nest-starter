@@ -7,7 +7,7 @@ module.exports = {
     resource: 'nodejs-apiserver',
     'verify-token-audience': false,
     credentials: {
-      secret: 'a6cdcf7c-6e87-4e6d-9e45-4bd6c7b9a0d6'
+      secret: 'c800c1a6-5c1a-4012-a008-6cf8bf6c50ad'
     },
     'confidential-port': 0,
     'policy-enforcer': {}
