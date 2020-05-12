@@ -3,28 +3,34 @@ import {
   ArgumentsHost,
   Catch,
   HttpException,
-  HttpStatus,
-  Logger
+  HttpStatus
 } from '@nestjs/common'
+import { logger } from '@kalengo/utils'
+import { BusinessException } from './exceptions/business.exception'
 
-@Catch(HttpException)
+@Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp()
     const response = ctx.getResponse()
+    const request = ctx.getRequest()
 
     const message = exception.message
-    Logger.log('系统内部错误', message)
-    const errorResponse = {
-      message: message,
-      code: exception.getStatus() || 1 // 自定义code
-      // url: request.originalUrl // 错误的url地址
-    }
+    logger.info('系统内部错误', message)
+
     const status =
       exception instanceof HttpException
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR
-    // 设置返回的状态码、请求头、发送错误信息
+
+    const code =
+      exception instanceof BusinessException ? exception.getCode() : status
+
+    const errorResponse = {
+      message: message,
+      code: code, // 自定义code
+      url: request.originalUrl // 错误的url地址
+    }
     response.status(status)
     response.header('Content-Type', 'application/json; charset=utf-8')
     response.send(errorResponse)
