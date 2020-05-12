@@ -1,5 +1,4 @@
 {
-  "setupFilesAfterEnv": ["<rootDir>/test-helper.ts"],
   "moduleFileExtensions": [
     "js",
     "json",

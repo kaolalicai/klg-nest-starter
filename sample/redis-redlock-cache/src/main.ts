@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core'
 import { ApplicationModule } from './app.module'
 import { TransformInterceptor } from '@kalengo/web'
 
-async function bootstrap() {
+async function bootstrap () {
   const app = await NestFactory.create(ApplicationModule)
 
   app.setGlobalPrefix('api/v1')
