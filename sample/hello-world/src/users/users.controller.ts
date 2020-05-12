@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  HttpException,
-  HttpStatus,
-  Query
-} from '@nestjs/common'
+import { Controller, Get, Post, Body, Query } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { IUserModel } from './model/user.model'
 import { IAccountModel } from './model/account.model'
@@ -18,6 +10,7 @@ import {
 } from '@nestjs/swagger'
 import { UserDto, FindUsersRes, RegisterRes, FindAccountRes } from './users.dto'
 import { DateUtil, logger } from '@kalengo/utils'
+import { BusinessException } from '@kalengo/web'
 
 @Controller('users')
 export class UsersController {
@@ -56,9 +49,9 @@ export class UsersController {
   }
 
   @Get('/err')
-  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 1, description: 'Forbidden.' })
   async err(): Promise<string> {
-    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN)
+    throw new BusinessException()
   }
 
   @Get('/account')
