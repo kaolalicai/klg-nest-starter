@@ -5,28 +5,25 @@ import { MessagePattern } from '@nestjs/microservices'
 import { of, Observable } from 'rxjs'
 import { delay } from 'rxjs/operators'
 
-@Controller('users')
+@Controller()
 export class UsersController {
-  constructor (private readonly usersService: UsersService) {
-  }
+  constructor(private readonly usersService: UsersService) {}
 
   @Post('/register')
-  async register (@Body() createUserDto: UserDto) {
+  async register(@Body() createUserDto: UserDto) {
     return await this.usersService.register(createUserDto)
   }
 
   @Get()
-  async findAll () {
+  async findAll() {
     return this.usersService.findAll()
   }
 
   @MessagePattern({ cmd: 'sum' })
-  accumulate (data: number[]): Observable<number> {
+  accumulate(data: number[]): Observable<number> {
     // if (1 > 0) {
     //   throw new HttpException('error', 503)
     // }
-    return of(15).pipe(
-      delay(2000)
-    )
+    return of(15).pipe(delay(2000))
   }
 }

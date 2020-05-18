@@ -10,7 +10,7 @@ describe('AppController (e2e) with db ', () => {
 
     console.log('prefix', prefix)
     const { body } = await request
-      .post(prefix + '/users/register')
+      .post(prefix + '/register')
       .send({ name: 'nick', phone: '12345' })
       .expect(201)
       .expect({
@@ -28,15 +28,11 @@ describe('AppController (e2e) with db ', () => {
 
   it('register', async () => {
     const { body } = await request
-      .post(prefix + '/users/register')
+      .post(prefix + '/register')
       .send({ name: 'nick', phone: '12345' })
       .expect(201)
     expect(body.code).toEqual(0)
     expect(body.message).toEqual('success')
     expect(body.data.name).toEqual('nick')
-  })
-
-  it('find all', () => {
-    request.get(prefix + '/users').expect(200)
   })
 })
