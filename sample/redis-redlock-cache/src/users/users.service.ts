@@ -11,7 +11,7 @@ import * as bluebird from 'bluebird'
 
 @Injectable()
 export class UsersService {
-  constructor (
+  constructor(
     private readonly redisService: RedisService,
     private readonly redlockService: RedlockService,
     @Inject(BUFFER_LOCK)
@@ -20,15 +20,15 @@ export class UsersService {
     // blank
   }
 
-  async register (createUsersDto: UserDto) {
+  async register(createUsersDto: UserDto) {
     return 'success'
   }
 
-  async findAll () {
+  async findAll() {
     return [1, 2, 3, 4, 5]
   }
 
-  async mutex () {
+  async mutex() {
     return await this.redlockService.getMutex().using(
       async () => {
         return await this.findAll()
@@ -37,7 +37,7 @@ export class UsersService {
     )
   }
 
-  async buffer () {
+  async buffer() {
     return await this.bufferLock.using(
       async () => {
         await bluebird.delay(0.1)
@@ -47,7 +47,7 @@ export class UsersService {
     )
   }
 
-  async getAndSet () {
+  async getAndSet() {
     const client = await this.redisService.getClient()
     let v = 'vvv'
     await client.setex('kk', 60, v)
