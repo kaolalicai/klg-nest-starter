@@ -34,6 +34,7 @@ module.exports = {
           ['/extend/logger', '日志 Logger'],
           ['/extend/event', '事件处理 Event'],
           ['/extend/crud', 'CRUD'],
+          ['/extend/ms', '微服务调用'],
           ['/extend/workflow', '工作流/微服务编排'],
           ['/extend/decorator', '自定义注解']
         ]
