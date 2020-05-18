@@ -1,6 +1,6 @@
 {
   "name": "@kalengo/web",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "aka web with koa",
   "scripts": {
     "test": "npm run test"
@@ -11,9 +11,9 @@
   "author": "nick",
   "license": "MIT",
   "dependencies": {
+    "@kalengo/utils": "1.0.0-alpha.0",
     "@nestjs/common": "7.0.8",
     "@nestjs/swagger": "4.5.1",
-    "@kalengo/utils": "1.0.0-alpha.0",
     "rxjs": "^6.5.5"
   },
   "devDependencies": {
