@@ -5,6 +5,9 @@ import { appSettings } from './settings'
 
 async function bootstrap() {
   const app = await NestFactory.create(ApplicationModule)
+
+  appSettings(app)
+
   // Swagger
   const options = new DocumentBuilder()
     .setTitle('Nest Starter')
@@ -14,8 +17,6 @@ async function bootstrap() {
     .build()
   const document = SwaggerModule.createDocument(app, options)
   SwaggerModule.setup('api', app, document)
-
-  appSettings(app)
 
   await app.listen(process.env.PORT || 3000)
   console.log(
