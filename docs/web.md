@@ -284,7 +284,10 @@ export class RegisterRes extends BaseResponse {
 }
 ```
 
-使用了 @ApiProperty 注解声明了 DTO 的字段，这些声明将会用于生成 Swagger 文档
+使用了 @ApiProperty 注解声明了 DTO 的字段，这些声明将会用于生成 Swagger 文档.
+
+**注意**，DTO 每个字段都需要注释还是比较麻烦的，Nest Swagger 为了解决这个问题，提供了自动扫描插件，
+该插件会尝试读取 typescript 信息，自动生成 API 文档需要的信息，详情见 [插件文档](https://docs.nestjs.cn/7/recipes?id=%e6%8f%92%e4%bb%b6)
 
 最终，生成好的接口文档长这样:
 
