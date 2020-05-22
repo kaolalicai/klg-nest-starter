@@ -4,3 +4,8 @@ export interface LockOption {
 }
 
 export type BufferOptions = LockOption
+
+export interface DecoratorLockOption {
+  key?: string
+  ttl?: number
+}

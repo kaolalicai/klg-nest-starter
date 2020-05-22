@@ -4,10 +4,18 @@ import {
   RedisService,
   RedlockService,
   BUFFER_LOCK,
-  Redlock
+  Redlock,
+  MutexLock,
+  LockKey,
+  BufferLock
 } from '@kalengo/redis'
 import * as assert from 'assert'
 import * as bluebird from 'bluebird'
+
+interface IDecoratorMutexParam {
+  name: string
+  list: string[]
+}
 
 @Injectable()
 export class UsersService {
@@ -54,5 +62,45 @@ export class UsersService {
     let value = await client.get('kk')
     Logger.log('value ' + value)
     assert(value === v)
+  }
+
+  @MutexLock({ ttl: 1000 })
+  async decoratorMutex(@LockKey('name') param: IDecoratorMutexParam) {
+    return await this.findAll()
+  }
+
+  @MutexLock({ ttl: 1000000 })
+  async decoratorMutexByKey(@LockKey() key: string) {
+    return await this.findAll()
+  }
+
+  @MutexLock({ ttl: 1000000, key: 'DecoratorOptionKey' })
+  async decoratorMutexByDecoratorOptionKey() {
+    return await this.findAll()
+  }
+
+  @MutexLock('DecoratorKey')
+  async decoratorMutexByDecoratorKey() {
+    return await this.findAll()
+  }
+
+  @BufferLock({ ttl: 1000 })
+  async decoratorBuffer(@LockKey('name') param: IDecoratorMutexParam) {
+    return await this.findAll()
+  }
+
+  @BufferLock({ ttl: 1000000 })
+  async decoratorBufferByKey(@LockKey() key: string) {
+    return await this.findAll()
+  }
+
+  @BufferLock({ ttl: 1000000, key: 'DecoratorOptionKey' })
+  async decoratorBufferByDecoratorOptionKey() {
+    return await this.findAll()
+  }
+
+  @BufferLock('DecoratorKey')
+  async decoratorBufferByDecoratorKey() {
+    return await this.findAll()
   }
 }
