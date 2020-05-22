@@ -85,11 +85,98 @@ export class UserDto {
 }
 ```
 
-而且我们还在具体的属性上加了 @IsNotEmpty() 的注解，这样 Nest 就会自动帮你完成参数校验。
+而且我们还在具体的属性上加了 @IsNotEmpty() 的注解，这样就可以通过 Nest 的中间件自动帮你完成参数校验。
 
-使用 DTO 的另一个好处： DTO 作为一个 class 定义的，可以方便地继承和重用
+使用 DTO 的另一个好处： DTO 作为一个 class 定义的，可以方便地继承和重用。
 
-更多细节请看 Nest 官方文档 [类验证器](https://docs.nestjs.cn/7/pipes?id=%e7%b1%bb%e9%aa%8c%e8%af%81%e5%99%a8)
+
+接下来讲讲如何配置 Validate 中间件。
+
+
+使用Nest 内置的 ValidationPipe，使用全局配置的方式
+```ts
+
+import { Module, ValidationPipe } from '@nestjs/common'
+import { APP_PIPE } from '@nestjs/core'
+
+@Module({
+  providers: [
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe
+    }
+  ]
+})
+export class ApplicationModule {}
+
+```
+但是这个 ValidationPipe 不会输出校验的错误明细信息，它只会抛出一个 BadRequestException，而且里面没有任何错误提示信息。
+查看了 ValidationPipe 源码，应该是一个 BUG，ValidationPipe 抛出 error 的时候把 error 丢失了，这个时候前端收到的内容是
+```ts
+{
+  message: 'Bad Request Exception',
+  code: 400,
+  url: '/api/v1/users/register'
+}
+```
+
+一个笼统的错误提示。
+
+
+我们可以通过修改 ValidationPipe 来实现输出错误信息。
+
+```ts
+
+import { Injectable, ValidationPipe, ValidationError } from '@nestjs/common'
+import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util'
+
+@Injectable()
+export class ParamsValidationPipe extends ValidationPipe {
+  public createExceptionFactory() {
+    return (validationErrors: ValidationError[] = []) => {
+      if (this.isDetailedOutputDisabled) {
+        return new HttpErrorByCode[this.errorHttpStatusCode]()
+      }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      const errors = this.flattenValidationErrors(validationErrors)
+      return new HttpErrorByCode[this.errorHttpStatusCode](errors.join(';')) // 把错误信息转为 string，这样就能抛出正确的 error
+    }
+  }
+}
+
+```
+
+改用我们修改过的中间件
+
+```ts
+import { Module } from '@nestjs/common'
+import { APP_PIPE } from '@nestjs/core'
+import { ParamsValidationPipe } from '@kalengo/web'
+
+@Module({
+  providers: [
+    {
+      provide: APP_PIPE,
+      useClass: ParamsValidationPipe
+    }
+  ]
+})
+export class ApplicationModule {}
+
+```
+测试一下，返回内容变为
+```ts
+{
+  message: 'phone should not be empty',
+  code: 400,
+  url: '/api/v1/users/register'
+}
+```
+
+这个修改版中间件将由 @kalengo/web 库提供
+
+更多配置方式和细节请看 Nest 官方文档 [类验证器](https://docs.nestjs.cn/7/pipes?id=%e7%b1%bb%e9%aa%8c%e8%af%81%e5%99%a8)
 
 ## 集合参数(TODO)
 在之前的开发经验中，为了方便处理参数，我们希望把 query body 的参数集合到一个对象 parameters 中,
