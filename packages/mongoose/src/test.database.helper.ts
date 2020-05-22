@@ -19,7 +19,7 @@ export class TestDatabaseHelper {
       .map((it: object) => Mock.mock(template))
       .map(fixData)
     Logger.debug('initFixtures ', items.length + '')
-    await model.create(items)
+    await model.insertMany(items)
     return items
   }
 
