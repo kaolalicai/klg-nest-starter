@@ -26,6 +26,16 @@ describe('AppController (e2e) with db ', () => {
     spy.mockRestore()
   })
 
+  it('register validate ', async () => {
+    const { body } = await request
+      .post(prefix + '/users/register')
+      .send({ name: 'nick' })
+      .expect(400)
+    console.log('body', body)
+    expect(body.code).toEqual(400)
+    expect(body.message).toEqual('phone should not be empty')
+  })
+
   it('register', async () => {
     const { body } = await request
       .post(prefix + '/users/register')
