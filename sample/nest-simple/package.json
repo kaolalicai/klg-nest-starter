@@ -24,7 +24,7 @@
     }
   },
   "dependencies": {
-    "@kalengo/web": "^1.0.2",
+    "@kalengo/web": "^1.0.3",
     "@nestjs/common": "7.0.8",
     "@nestjs/core": "7.0.8",
     "@nestjs/platform-express": "7.0.8",

@@ -16,9 +16,9 @@
     "test:e2e": "jest --config ./test/jest-e2e.json --runInBand"
   },
   "dependencies": {
-    "@kalengo/redis": "^1.0.0",
+    "@kalengo/redis": "^1.0.3",
     "@kalengo/utils": "^0.1.5",
-    "@kalengo/web": "^1.0.2",
+    "@kalengo/web": "^1.0.3",
     "@nestjs/common": "7.0.8",
     "@nestjs/core": "7.0.8",
     "@nestjs/platform-express": "7.0.8",
