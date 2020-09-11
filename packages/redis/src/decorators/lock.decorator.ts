@@ -42,14 +42,14 @@ function lockWrap(
   serviceName: string,
   lockKeyMetaIndex: Array<ILockKeyMetaData>
 ) {
-  let { resourceKey, ttl } = lockParam
+  const { resourceKey, ttl } = lockParam
   return async function (this: any, ...args) {
     const redlockService: RedlockService = this[serviceName]
     if (!redlockService)
       throw new Error(
         '自动注入redlockService失败，请检查是否在全局注入RedlockService'
       )
-    resourceKey = resourceKey
+    const resource = resourceKey
       ? resourceKey
       : getLockKey(lockKeyMetaIndex, ...args)
 
@@ -61,7 +61,7 @@ function lockWrap(
       async () => {
         return originalMethod.apply(this, args)
       },
-      { resource: resourceKey, ttl }
+      { resource, ttl }
     )
     return res
   }
